@@ -3,7 +3,17 @@ import MainTemplate from 'templates/MainTemplate';
 import styled from 'styled-components';
 import posed from 'react-pose';
 
-const AnimateH1 = posed.h1({
+// const AnimateH1 = {};
+
+// const H1 = styled(posed.h1(AnimateH1))`
+//   margin: 0;
+// `;
+
+const H1 = styled.h1`
+  margin: 0;
+`;
+
+const H1Animate = posed(H1)({
   hiddene: {
     opacity: 0,
     x: '-100%',
@@ -24,10 +34,6 @@ const StyledWrapper = styled.div`
   justify-content: center;
 `;
 
-const H1 = styled(AnimateH1)`
-  margin: 0;
-`;
-
 class App extends Component {
   state = {
     animate: true,
@@ -45,7 +51,7 @@ class App extends Component {
     return (
       <MainTemplate>
         <StyledWrapper>
-          <H1 pose={animate ? 'visiblee' : 'hiddene'}>hello world</H1>
+          <H1Animate pose={animate ? 'visiblee' : 'hiddene'}>hello worldd</H1Animate>
         </StyledWrapper>
       </MainTemplate>
     );
