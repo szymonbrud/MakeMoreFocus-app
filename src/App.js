@@ -49,11 +49,13 @@ class App extends Component {
     const { animate } = this.state;
 
     return (
-      <MainTemplate>
-        <StyledWrapper>
-          <H1Animate pose={animate ? 'visiblee' : 'hiddene'}>hello worldd</H1Animate>
-        </StyledWrapper>
-      </MainTemplate>
+      <div>
+        <MainTemplate>
+          <StyledWrapper>
+            <H1Animate pose={animate ? 'visiblee' : 'hiddene'}>hello worldd</H1Animate>
+          </StyledWrapper>
+        </MainTemplate>
+      </div>
     );
   }
 }
