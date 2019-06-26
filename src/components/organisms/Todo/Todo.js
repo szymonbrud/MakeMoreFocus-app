@@ -5,6 +5,7 @@ import web_dev from 'assets/images/web_dev.svg';
 import ButtonInTodo from 'components/molecules/ButtonInTodo/ButtonInTodo';
 import icon_clock from 'assets/icons/icon_clock.svg';
 import icon_check from 'assets/icons/icon_check.svg';
+import propTypes from 'prop-types';
 
 const StyledWrapper = styled.div`
   width: 200px;
@@ -16,7 +17,7 @@ const StyledWrapper = styled.div`
 `;
 
 const StyledWrapperForElements = styled.div`
-  background: ${({ theme }) => theme.opacityBlue};
+  background: ${({ theme }) => theme.opacityBlue2};
   border-radius: 10px;
   width: 100%;
   height: 100%;
@@ -47,11 +48,12 @@ const StyledIcon = styled(Icon)`
   transform: scale(0.15);
 `;
 
-const Todo = () => (
+const Todo = ({ title }) => (
   <StyledWrapper>
     <StyledIcon src={web_dev} />
     <StyledWrapperForElements>
-      <StyledH1>Nauka programowania</StyledH1>
+      {console.log(title)}
+      <StyledH1>{title}</StyledH1>
       <WrapperIcons>
         <ButtonInTodo icons={icon_clock} first />
         <ButtonInTodo icons={icon_check} />
@@ -60,5 +62,13 @@ const Todo = () => (
     </StyledWrapperForElements>
   </StyledWrapper>
 );
+
+Todo.propTypes = {
+  title: propTypes.string,
+};
+
+// Todo.defaultProps = {
+//   title: 'Text roboczy',
+// };
 
 export default Todo;

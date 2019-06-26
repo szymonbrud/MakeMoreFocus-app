@@ -6,8 +6,9 @@ const Date = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 20px;
-  max-width: 100px;
+  padding: 6px 0px;
+  width: 70px;
+  font-weight: 700;
   border-radius: 0 10px 10px 0;
 `;
 
