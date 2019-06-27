@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import TodoModel from 'components/models/TodoModel';
 import { connect } from 'react-redux';
-import { ApiTake } from 'actions';
+import { getTodosToday } from 'actions';
+import AnimationLoading from 'components/molecules/AnimationLoading/AnimationLoading';
+import propTypes from 'prop-types';
 
 const StyledWrapper = styled.section`
   width: 100%;
@@ -12,8 +14,7 @@ const StyledWrapper = styled.section`
 class TodoTemplate extends Component {
   componentDidMount() {
     const date = new Date();
-    const { wantApi } = this.props;
-    // const dateDay = date.getDate();
+    const { getTodos } = this.props;
     const dzieńtyg = date.getDay();
 
     const NamesOfDays = [
@@ -27,8 +28,9 @@ class TodoTemplate extends Component {
     ];
 
     const nowDay = NamesOfDays[dzieńtyg];
-
-    wantApi(nowDay);
+    setTimeout(() => {
+      getTodos(nowDay);
+    }, 1000);
   }
 
   render() {
@@ -41,19 +43,48 @@ class TodoTemplate extends Component {
             return <TodoModel todoData={element} />;
           })
         ) : (
-          <h1>nie masz żadnych notatek</h1>
+          <AnimationLoading />
         )}
       </StyledWrapper>
     );
   }
 }
 
+TodoTemplate.propTypes = {
+  getTodos: propTypes.func.isRequired,
+  todos: propTypes.objectOf(
+    propTypes.string,
+    propTypes.string,
+    propTypes.string,
+    propTypes.number,
+    propTypes.number,
+    propTypes.number,
+    propTypes.number,
+    propTypes.number,
+    propTypes.number,
+  ),
+};
+
+TodoTemplate.defaultProps = {
+  todos: propTypes.objectOf(
+    propTypes.string,
+    propTypes.string,
+    propTypes.string,
+    propTypes.number,
+    propTypes.number,
+    propTypes.number,
+    propTypes.number,
+    propTypes.number,
+    propTypes.number,
+  ),
+};
+
 const myActionToProps = {
-  wantApi: ApiTake,
+  getTodos: getTodosToday,
 };
 
 const mapDataOfTodo = state => ({
-  todos: state.AddDate,
+  todos: state.todosToday,
 });
 
 export default connect(

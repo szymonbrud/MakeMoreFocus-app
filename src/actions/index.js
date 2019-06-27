@@ -1,28 +1,79 @@
 import axios from 'axios';
 
-export function FinallyRequest(items) {
+export const GET_TODOS_TODAY = 'GET_TODOS_TODAY';
+export const LOGIN_USER = 'LOGIN_USER';
+export const AUTHENTICATE = 'AUTHENTICATE';
+
+export const finallyRequestGetTodos = items => {
   return {
-    type: 'API_IMAGES',
+    type: GET_TODOS_TODAY,
     payload: {
-      myAllData: items,
+      todos: items,
     },
   };
-}
+};
 
-export const ApiTake = day => {
+export const FinallyRequestLogin = items => {
+  return {
+    type: LOGIN_USER,
+    payload: {
+      userData: items,
+    },
+  };
+};
+
+export const authenticateUser = status => {
+  return {
+    type: AUTHENTICATE,
+    payload: {
+      authStatus: status,
+    },
+  };
+};
+
+export const getTodosToday = () => {
   return dispatch => {
     axios
-      .get(`http://localhost:4000/day`, {
+      .get(`https://cors-anywhere.herokuapp.com/https://glacial-inlet-42048.herokuapp.com/todos`, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        },
+        // params: {
+        //   day: 'monday',
+        //   userId: '234124KLJ12J4IWKR',
+        // },
+      })
+      .then(res => {
+        return dispatch(finallyRequestGetTodos(res.data.data));
+      });
+    // .catch(err => console.log(err));
+    // .finally(() => {
+    //   // dispatch(ApiRun(false));
+    // });
+  };
+};
+
+export const LoginUser = (email, password) => {
+  return dispatch => {
+    axios
+      .get(`https://cors-anywhere.herokuapp.com/https://glacial-inlet-42048.herokuapp.com/login`, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        },
         params: {
-          day,
-          userId: '234124KLJ12J4IWKR',
+          email,
+          password,
         },
       })
       .then(res => {
-        console.log(res);
-        return dispatch(FinallyRequest(res.data.data));
+        dispatch(FinallyRequestLogin(res.data.data));
+        return res;
       })
-      .catch(err => console.log(err))
+      .then(res => {
+        dispatch(authenticateUser(res.status));
+        return res;
+      })
+      // .catch(err => console.log(err))
       .finally(() => {
         // dispatch(ApiRun(false));
       });

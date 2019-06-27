@@ -6,7 +6,8 @@
   },
   "globals": {
     "window": true,
-    "document": true
+    "document": true,
+    "sessionStorage": true
   },
   "rules": {
     "camelcase": 0,

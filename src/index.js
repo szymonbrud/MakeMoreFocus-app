@@ -4,7 +4,7 @@ import thunk from 'redux-thunk';
 import { applyMiddleware, compose, createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { rootReducer, AddDate } from 'reducers';
+import { rootReducer, todosToday, loginUser, authenticate } from 'reducers';
 import * as serviceWorker from './serviceWorker';
 
 import App from './App';
@@ -14,7 +14,7 @@ const allStoreEnchancers = compose(
   composeWithDevTools(),
 );
 
-const allReducers = combineReducers({ rootReducer, AddDate });
+const allReducers = combineReducers({ rootReducer, todosToday, loginUser, authenticate });
 
 const store = createStore(allReducers, allStoreEnchancers);
 
