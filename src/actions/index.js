@@ -18,29 +18,14 @@ export const finallyRequestGetTodos = items => {
     sunday: {},
   };
 
-  // eslint-disable-next-line
-  items.map((element, i) => {
-    if (element.monday === 1) {
-      todos.monday[element.title] = items[i];
-    }
-    if (element.tuesday === 1) {
-      todos.tuesday[element.title] = items[i];
-    }
-    if (element.wednesday === 1) {
-      todos.wednesday[element.title] = items[i];
-    }
-    if (element.thursday === 1) {
-      todos.thursday[element.title] = items[i];
-    }
-    if (element.friday === 1) {
-      todos.friday[element.title] = items[i];
-    }
-    if (element.saturday === 1) {
-      todos.saturday[element.title] = items[i];
-    }
-    if (element.sunday === 1) {
-      todos.sunday[element.title] = items[i];
-    }
+  const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+
+  items.forEach(element => {
+    days.forEach(e => {
+      if (element[e] === 1) {
+        todos[e][element.title] = element;
+      }
+    });
   });
 
   return {

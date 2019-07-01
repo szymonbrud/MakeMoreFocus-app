@@ -4,7 +4,6 @@ import Icon from 'components/Icon/Icon';
 import propTypes from 'prop-types';
 
 const StyledWrapper = styled.button`
-  width: 50px;
   height: 25px;
   background: white;
   border: none;
@@ -13,10 +12,12 @@ const StyledWrapper = styled.button`
   align-items: center;
   justify-content: center;
   padding: 0;
+  position: relative;
+  z-index: 100;
 `;
 
 const StyledIcon = styled(Icon)`
-  transform: scale(0.4) translateY(${({ first }) => (first ? '-60%' : '-63%')});
+  transform: scale(0.4);
 `;
 
 const StyledDiv = styled.div`
@@ -40,8 +41,38 @@ const StyledDiv = styled.div`
   }
 `;
 
+const StyledNameOfFunction = styled.div`
+  padding: 5px 10px 5px 30px;
+  position: absolute;
+  top: 0;
+  left: 80%;
+  height: 100%;
+  background: ${({ theme }) => theme.blue};
+  color: white;
+  border-radius: 5px;
+  z-index: -100;
+`;
+
+const StyledIconWrapper = styled.div`
+  width: 50px;
+  height: 25px;
+  background: white;
+  border: none;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  position: absolute;
+`;
+
 const ButtonInTodo = ({ icons, first }) => (
-  <StyledWrapper>{icons ? <StyledIcon src={icons} first={first} /> : <StyledDiv />}</StyledWrapper>
+  <StyledWrapper>
+    <StyledIconWrapper>
+      {icons ? <StyledIcon src={icons} first={first} /> : <StyledDiv />}
+    </StyledIconWrapper>
+    <StyledNameOfFunction>zrobione</StyledNameOfFunction>
+  </StyledWrapper>
 );
 
 ButtonInTodo.propTypes = {

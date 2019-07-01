@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import propTypes from 'prop-types';
 
 const StyledMainWrapper = styled.article`
   width: 100%;
@@ -18,57 +19,54 @@ class TodoModel extends Component {
   state = {};
 
   render() {
-    // eslint-disable-next-line
     const { date, todoDone, todo } = this.props;
 
     const allTodos = [];
-    let tabI = 0;
-    let dod = [];
-    let przepus = true;
+    let indexTab = 0;
+    let stateOfTodo = [];
+    let CheckStateOfTodo = true;
     let dateTodone;
+
+    const checkTodoDone = prop => {
+      todoDone.forEach((e, i) => {
+        if (e === null) {
+          stateOfTodo[i] = true;
+        } else if (e.idTodo === todo[prop].id) {
+          stateOfTodo[i] = false;
+          dateTodone = e;
+        } else {
+          stateOfTodo[i] = true;
+        }
+      });
+
+      stateOfTodo.forEach(e => {
+        if (e === false) {
+          CheckStateOfTodo = false;
+        }
+      });
+
+      if (CheckStateOfTodo === true) {
+        allTodos[indexTab] = todo[prop];
+        indexTab += 1;
+      } else {
+        allTodos[indexTab] = dateTodone;
+        indexTab += 1;
+      }
+    };
 
     if (todoDone.length !== 0 && todo.length !== 0) {
       // eslint-disable-next-line
       for (const prop in todo) {
-        przepus = true;
-        dod = [];
-        // eslint-disable-next-line
-        todoDone.map((e, i) => {
-          if (e === null) {
-            dod[i] = true;
-          } else if (e.idTodo === todo[prop].id) {
-            dod[i] = false;
-            dateTodone = e;
-          } else {
-            dod[i] = true;
-          }
-        });
-        // eslint-disable-next-line
-        for (const zmien in dod) {
-          if (dod[zmien] === false) {
-            przepus = false;
-          }
-        }
-
-        // console.log(przepus);
-        if (przepus === true) {
-          allTodos[tabI] = todo[prop];
-          tabI += 1;
-        } else {
-          allTodos[tabI] = dateTodone;
-          tabI += 1;
-        }
-        // else {
-        //   addTodosp[tabI] =
-        //   tabI += 1;
-        // }
+        CheckStateOfTodo = true;
+        stateOfTodo = [];
+        checkTodoDone(prop);
       }
     }
 
     return (
       <StyledMainWrapper>
-        <h1>{date.dayName}</h1>
-        <h1>{date.day}</h1>
+        <h1>{date.todayDayName}</h1>
+        <h1>{date.todayDay}</h1>
         {allTodos.length !== 0
           ? allTodos.map(e => {
               if (e.date === undefined) {
@@ -81,5 +79,17 @@ class TodoModel extends Component {
     );
   }
 }
+
+TodoModel.propTypes = {
+  date: propTypes.objectOf(propTypes.object),
+  todoDone: propTypes.arrayOf(propTypes.object),
+  todo: propTypes.objectOf(propTypes.object),
+};
+
+TodoModel.defaultProps = {
+  date: {},
+  todoDone: [],
+  todo: {},
+};
 
 export default TodoModel;

@@ -5,10 +5,9 @@ import web_dev from 'assets/images/web_dev.svg';
 import ButtonInTodo from 'components/molecules/ButtonInTodo/ButtonInTodo';
 import icon_clock from 'assets/icons/icon_clock.svg';
 import icon_check from 'assets/icons/icon_check.svg';
-import propTypes from 'prop-types';
 
 const StyledWrapper = styled.div`
-  width: 200px;
+  width: 400px;
   height: 120px;
   display: flex;
   align-items: center;
@@ -48,11 +47,11 @@ const StyledIcon = styled(Icon)`
   transform: scale(0.15);
 `;
 
+// eslint-disable-next-line
 const Todo = ({ title }) => (
   <StyledWrapper>
     <StyledIcon src={web_dev} />
     <StyledWrapperForElements>
-      {console.log(title)}
       <StyledH1>{title}</StyledH1>
       <WrapperIcons>
         <ButtonInTodo icons={icon_clock} first />
@@ -62,13 +61,5 @@ const Todo = ({ title }) => (
     </StyledWrapperForElements>
   </StyledWrapper>
 );
-
-Todo.propTypes = {
-  title: propTypes.string,
-};
-
-// Todo.defaultProps = {
-//   title: 'Text roboczy',
-// };
 
 export default Todo;
