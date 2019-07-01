@@ -1,30 +1,74 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
-import Date from 'components/atoms/Date/Date';
-import Todo from 'components/organisms/Todo/Todo';
 
 const StyledMainWrapper = styled.article`
   width: 100%;
   height: 100%;
 `;
 
-const WrapperTodo = styled.div`
-  width: 100%;
-  display: grid;
-  justify-content: center;
-  grid-template-columns: repeat(auto-fill, 220px);
-  grid-gap: 10px 0;
-`;
+// const WrapperTodo = styled.div`
+//   width: 100%;
+//   display: grid;
+//   justify-content: center;
+//   grid-template-columns: repeat(auto-fill, 220px);
+//   grid-gap: 10px 0;
+// `;
 
-const TodoModel = ({ todoData }) => (
-  <StyledMainWrapper>
-    <Date>data</Date>
-    <WrapperTodo>
-      {[todoData[0]].map(({ title }) => (
-        <Todo title={title} />
-      ))}
-    </WrapperTodo>
-  </StyledMainWrapper>
-);
+class TodoModel extends Component {
+  state = {};
+
+  render() {
+    // eslint-disable-next-line
+    const { date, todoDone, todo } = this.props;
+
+    const allTodos = [];
+    let tabI = 0;
+    let dod = [];
+    let przepus = true;
+
+    if (todoDone.length !== 0 && todo.length !== 0) {
+      // eslint-disable-next-line
+      for (const prop in todo) {
+        przepus = true;
+        dod = [];
+        // eslint-disable-next-line
+        todoDone.map((e, i) => {
+          if (e === null) {
+            dod[i] = true;
+          } else if (e.idTodo === todo[prop].id) {
+            dod[i] = false;
+          } else {
+            dod[i] = true;
+          }
+        });
+        // eslint-disable-next-line
+        for (const zmien in dod) {
+          if (dod[zmien] === false) {
+            przepus = false;
+          }
+        }
+        // dod.map(el => {
+        //   if (el === true) {
+        //     przepus === true;
+        //   }
+        // });
+
+        // console.log(przepus);
+        if (przepus === true) {
+          allTodos[tabI] = todo[prop];
+          tabI += 1;
+        }
+      }
+    }
+
+    return (
+      <StyledMainWrapper>
+        <h1>{date.dayName}</h1>
+        <h1>{date.day}</h1>
+        {allTodos.length !== 0 ? allTodos.map(e => <p>{e.title}</p>) : null}
+      </StyledMainWrapper>
+    );
+  }
+}
 
 export default TodoModel;
