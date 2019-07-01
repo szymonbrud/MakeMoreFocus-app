@@ -25,6 +25,7 @@ class TodoModel extends Component {
     let tabI = 0;
     let dod = [];
     let przepus = true;
+    let dateTodone;
 
     if (todoDone.length !== 0 && todo.length !== 0) {
       // eslint-disable-next-line
@@ -37,6 +38,7 @@ class TodoModel extends Component {
             dod[i] = true;
           } else if (e.idTodo === todo[prop].id) {
             dod[i] = false;
+            dateTodone = e;
           } else {
             dod[i] = true;
           }
@@ -47,17 +49,19 @@ class TodoModel extends Component {
             przepus = false;
           }
         }
-        // dod.map(el => {
-        //   if (el === true) {
-        //     przepus === true;
-        //   }
-        // });
 
         // console.log(przepus);
         if (przepus === true) {
           allTodos[tabI] = todo[prop];
           tabI += 1;
+        } else {
+          allTodos[tabI] = dateTodone;
+          tabI += 1;
         }
+        // else {
+        //   addTodosp[tabI] =
+        //   tabI += 1;
+        // }
       }
     }
 
@@ -65,7 +69,14 @@ class TodoModel extends Component {
       <StyledMainWrapper>
         <h1>{date.dayName}</h1>
         <h1>{date.day}</h1>
-        {allTodos.length !== 0 ? allTodos.map(e => <p>{e.title}</p>) : null}
+        {allTodos.length !== 0
+          ? allTodos.map(e => {
+              if (e.date === undefined) {
+                return <p>{e.title}</p>;
+              }
+              return <p>---{e.title}---</p>;
+            })
+          : null}
       </StyledMainWrapper>
     );
   }
