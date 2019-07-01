@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import propTypes from 'prop-types';
+import Todo from 'components/organisms/Todo/Todo';
+import TodoDone from 'components/organisms/TodoDone/TodoDone';
+import Date from 'components/atoms/Date/Date';
+import getMonth from 'functions/getMonth';
 
 const StyledMainWrapper = styled.article`
   width: 100%;
   height: 100%;
 `;
 
-// const WrapperTodo = styled.div`
-//   width: 100%;
-//   display: grid;
-//   justify-content: center;
-//   grid-template-columns: repeat(auto-fill, 220px);
-//   grid-gap: 10px 0;
-// `;
+const WrapperTodo = styled.div`
+  width: 96%;
+  margin-left: 2%;
+`;
 
 class TodoModel extends Component {
   state = {};
@@ -65,16 +66,17 @@ class TodoModel extends Component {
 
     return (
       <StyledMainWrapper>
-        <h1>{date.todayDayName}</h1>
-        <h1>{date.todayDay}</h1>
-        {allTodos.length !== 0
-          ? allTodos.map(e => {
-              if (e.date === undefined) {
-                return <p>{e.title}</p>;
-              }
-              return <p>---{e.title}---</p>;
-            })
-          : null}
+        <Date>{`${getMonth(date.todayMonth + 1)} ${date.todayDay}`}</Date>
+        <WrapperTodo>
+          {allTodos.length !== 0
+            ? allTodos.map(e => {
+                if (e.date === undefined) {
+                  return <Todo data={e} />;
+                }
+                return <TodoDone data={e} />;
+              })
+            : null}
+        </WrapperTodo>
       </StyledMainWrapper>
     );
   }

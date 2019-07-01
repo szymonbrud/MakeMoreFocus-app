@@ -13,7 +13,11 @@ const StyledWrapper = styled.button`
   justify-content: center;
   padding: 0;
   position: relative;
+  top: 0;
+  left: 0;
   z-index: 100;
+  margin: 0;
+  padding: 0;
 `;
 
 const StyledIcon = styled(Icon)`

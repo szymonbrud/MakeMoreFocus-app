@@ -10,6 +10,7 @@ const Date = styled.div`
   width: 70px;
   font-weight: 700;
   border-radius: 0 10px 10px 0;
+  margin-bottom: 10px;
 `;
 
 export default Date;
