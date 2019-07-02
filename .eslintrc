@@ -6,9 +6,11 @@
   },
   "globals": {
     "window": true,
-    "document": true
+    "document": true,
+    "sessionStorage": true
   },
   "rules": {
+    "camelcase": 0,
     "import/prefer-default-export": 0,
     "import/no-extraneous-dependencies": 0,
     "import/no-unresolved": 1,
