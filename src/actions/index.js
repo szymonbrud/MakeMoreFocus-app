@@ -91,7 +91,7 @@ export const finallyRegister = (userData, message) => {
 export const getTodosToday = userId => {
   return dispatch => {
     axios
-      .get(`http://localhost:9000/days`, {
+      .get(`https://cors-anywhere.herokuapp.com/https://glacial-inlet-42048.herokuapp.com/days`, {
         headers: {
           'Access-Control-Allow-Origin': '*',
         },
@@ -108,15 +108,18 @@ export const getTodosToday = userId => {
 export const getDoneTodos = (userId, date) => {
   return dispatch => {
     axios
-      .get(`http://localhost:9000/daysDone`, {
-        headers: {
-          'Access-Control-Allow-Origin': '*',
+      .get(
+        `https://cors-anywhere.herokuapp.com/https://glacial-inlet-42048.herokuapp.com/daysDone`,
+        {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+          },
+          params: {
+            userId,
+            date,
+          },
         },
-        params: {
-          userId,
-          date,
-        },
-      })
+      )
       .then(res => {
         return dispatch(finallyRequestDoneTodo(res.data.data));
       });
@@ -126,7 +129,7 @@ export const getDoneTodos = (userId, date) => {
 export const LoginUser = (email, password) => {
   return dispatch => {
     axios
-      .get(`http://localhost:9000/login`, {
+      .get(`https://cors-anywhere.herokuapp.com/https://glacial-inlet-42048.herokuapp.com/login`, {
         headers: {
           'Access-Control-Allow-Origin': '*',
         },
@@ -153,17 +156,20 @@ export const LoginUser = (email, password) => {
 export const registerUser = (name, email, password) => {
   return dispatch => {
     axios
-      .post(`http://localhost:9000/register`, {
-        body: {
-          userId: '',
-          name,
-          email,
-          password,
+      .post(
+        `https://cors-anywhere.herokuapp.com/https://glacial-inlet-42048.herokuapp.com/register`,
+        {
+          body: {
+            userId: '',
+            name,
+            email,
+            password,
+          },
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
         },
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      })
+      )
       .then(result => {
         dispatch(
           finallyRegister(
@@ -178,11 +184,14 @@ export const registerUser = (name, email, password) => {
 export const checkUserName = (name, email, password) => {
   return dispatch => {
     axios
-      .get(`http://localhost:9000/userEmail`, {
-        params: {
-          email,
+      .get(
+        `https://cors-anywhere.herokuapp.com/https://glacial-inlet-42048.herokuapp.com/userEmail`,
+        {
+          params: {
+            email,
+          },
         },
-      })
+      )
       .then(res => {
         if (res.data.data.length === 0) {
           dispatch(registerUser(name, email, password));
