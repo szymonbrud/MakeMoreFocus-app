@@ -4,6 +4,8 @@ import TodoTemplate from 'templates/TodoTemplate';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import LoginTemplate from 'templates/LoginTemplate';
 import RegisterTemplate from 'templates/RegisterTemplate';
+import AddTodoTemplate from 'templates/AddTodoTemplate';
+import EditTemplate from 'templates/EditTemplate';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   return (
@@ -30,6 +32,8 @@ const App = () => (
     <MainTemplate>
       <Switch>
         <PrivateRoute exact path="/todo" component={TodoTemplate} />
+        <PrivateRoute exact path="/todo/:id" component={EditTemplate} />
+        <PrivateRoute exact path="/addTodo" component={AddTodoTemplate} />
         <Route exact path="/login" component={LoginTemplate} />
         <Route exact path="/register" component={RegisterTemplate} />
       </Switch>

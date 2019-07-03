@@ -4,6 +4,7 @@ import styled from 'styled-components';
 const StyledMainWrapper = styled.div`
   width: 100%;
   height: 30px;
+  margin: 10px 0;
   background: ${({ theme }) => theme.blue};
   border-radius: 5px;
   display: flex;

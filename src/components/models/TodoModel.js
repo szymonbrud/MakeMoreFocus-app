@@ -55,7 +55,7 @@ class TodoModel extends Component {
       }
     };
 
-    if (todoDone.length !== 0 && todo.length !== 0) {
+    if (todoDone.length !== 0 || todo.length !== 0) {
       // eslint-disable-next-line
       for (const prop in todo) {
         CheckStateOfTodo = true;
@@ -71,9 +71,9 @@ class TodoModel extends Component {
           {allTodos.length !== 0
             ? allTodos.map(e => {
                 if (e.date === undefined) {
-                  return <Todo data={e} />;
+                  return <Todo data={e} date={date} />;
                 }
-                return <TodoDone data={e} />;
+                return <TodoDone data={e} date={date} />;
               })
             : null}
         </WrapperTodo>

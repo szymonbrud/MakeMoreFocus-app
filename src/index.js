@@ -12,6 +12,8 @@ import {
   checkStatusUser,
   userData,
   todoDone,
+  addTodo,
+  deleteTodo,
 } from 'reducers';
 import * as serviceWorker from './serviceWorker';
 
@@ -30,6 +32,8 @@ const allReducers = combineReducers({
   checkStatusUser,
   userData,
   todoDone,
+  addTodo,
+  deleteTodo,
 });
 
 const store = createStore(allReducers, allStoreEnchancers);

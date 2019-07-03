@@ -4,6 +4,7 @@ import TodoModel from 'components/models/TodoModel';
 import { connect } from 'react-redux';
 import { getTodosToday, getDoneTodos } from 'actions';
 import propTypes from 'prop-types';
+import ButtonNewTodo from 'components/molecules/ButtonNewTodo/ButtonNewTodo';
 
 const StyledWrapper = styled.section`
   width: 100%;
@@ -106,6 +107,7 @@ class TodoTemplate extends Component {
               ) : null;
             })
           : null}
+        <ButtonNewTodo to="/addTodo" />
       </StyledWrapper>
     );
   }

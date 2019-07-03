@@ -55,6 +55,7 @@ const StyledNameOfFunction = styled.div`
   color: white;
   border-radius: 5px;
   z-index: -100;
+  width: 22vw;
 `;
 
 const StyledIconWrapper = styled.div`
@@ -70,22 +71,24 @@ const StyledIconWrapper = styled.div`
   position: absolute;
 `;
 
-const ButtonInTodo = ({ icons, first }) => (
+const ButtonInTodo = ({ icons, first, title }) => (
   <StyledWrapper>
     <StyledIconWrapper>
       {icons ? <StyledIcon src={icons} first={first} /> : <StyledDiv />}
     </StyledIconWrapper>
-    <StyledNameOfFunction>zrobione</StyledNameOfFunction>
+    <StyledNameOfFunction>{title}</StyledNameOfFunction>
   </StyledWrapper>
 );
 
 ButtonInTodo.propTypes = {
   icons: propTypes.element.isRequired,
   first: propTypes.bool,
+  title: propTypes.string,
 };
 
 ButtonInTodo.defaultProps = {
   first: false,
+  title: '',
 };
 
 export default ButtonInTodo;
