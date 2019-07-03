@@ -90,7 +90,6 @@ class TodoTemplate extends Component {
               const fullYesterdayDate = `${yesterdayYear}-${yesterdayMonth}-${yesterdayDay}T22:00:00.000Z`;
 
               return todos.length !== 0 ? (
-                // aktualny dzień
                 <TodoModel
                   date={{
                     todayDayName,

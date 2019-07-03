@@ -15,7 +15,7 @@ const StyledWrapper = styled.div`
   height: 120px;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   position: relative;
   margin: 10px 0;
 `;
@@ -35,9 +35,7 @@ const StyledWrapperForElements = styled.div`
 `;
 
 const WrapperIcons = styled.div`
-  min-width: 50%;
   display: flex;
-  align-items: center;
   justify-content: space-around;
   flex-direction: column;
   height: 100%;
@@ -69,7 +67,8 @@ const StyledTime = styled.h1`
 `;
 
 const StyledIcon = styled(Icon)`
-  transform: scale(0.15) translateX(150%);
+  transform: scale(0.15);
+  margin-right: 30%;
 `;
 
 // eslint-disable-next-line
