@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import { connect } from 'react-redux';
 import { LoginUser, authenticateUser } from 'actions';
 import propTypes from 'prop-types';
 import BGLogin2 from 'assets/images/BGLogin2.png';
 import AnimationLoading from 'components/molecules/AnimationLoading/AnimationLoading';
+import LogAndRegButton from 'components/atoms/LogAndRegButton/LogAndRegButton';
+import Forwarding from 'components/molecules/Forwarding/Forwarding';
+import InputField from 'components/atoms/InputField/InputField';
 
 const StyledMainTemplate = styled.div`
   width: 100%;
@@ -20,8 +23,10 @@ const StyledMainTemplate = styled.div`
 `;
 
 const StyledContentWrapper = styled.div`
-  width: 90%;
-  min-height: 95vw;
+  max-width: 90%;
+  width: 400px;
+  max-height: 95vw;
+  height: 400px;
   background: white;
   border-radius: 10px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -45,56 +50,14 @@ const StyledForm = styled(Form)`
   flex-direction: column;
 `;
 
-const StyledField = styled(Field)`
-  width: 70%;
-  border: 1px solid ${({ theme }) => theme.blue};
-  margin: 5px 0;
-  border-radius: 5px;
-  height: 30px;
-  padding: 5px;
-`;
-
-const StyledButtonLogin = styled.button`
-  width: 40%;
-  background: ${({ theme }) => theme.blue};
-  border-radius: 10px;
-  color: white;
-  border: none;
-  height: 34px;
-  margin-top: 11px;
-`;
-
-const StyledWrapperReg = styled.div`
-  width: 100%;
+const StyledPositionWrapper = styled.div`
   position: absolute;
   bottom: 20px;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-`;
-
-const StyledP = styled.p`
-  font-size: 1.5rem;
-  margin: 0;
-`;
-
-const StyledA = styled(Link)`
-  font-size: 1.5rem;
-  color: ${({ theme }) => theme.blue};
-  position: relative;
-  margin: 4px 0 0 0;
-  text-decoration: none;
-
-  ::before {
-    content: '';
-    width: 100%;
-    height: 1px;
-    background: ${({ theme }) => theme.blue};
-    position: absolute;
-    bottom: -4px;
-    right: 0;
-  }
 `;
 
 const StyledLoginFail = styled.p`
@@ -129,7 +92,7 @@ class LoginTemplate extends Component {
     const { buttonClick, currentUser, finished, loginStatus } = this.state;
     const { dataUser, authenticate, userLogin, authenticateUserStatus } = this.props;
 
-    const { from } = this.props.location.state || { from: { pathname: '/' } }; // eslint-disable-line react/destructuring-assignment, react/prop-types
+    const { from } = this.props.location.state || { from: { pathname: '/todo' } }; // eslint-disable-line react/destructuring-assignment, react/prop-types
 
     if (finished) {
       return <Redirect to={from} />;
@@ -165,8 +128,8 @@ class LoginTemplate extends Component {
           >
             {({ isSubmitting }) => (
               <StyledForm>
-                <StyledField as={Field} type="text" placeholder="email" name="email" />
-                <StyledField as={Field} type="password" placeholder="password" name="password" />
+                <InputField as={Field} type="text" placeholder="email" name="email" />
+                <InputField as={Field} type="password" placeholder="password" name="password" />
 
                 {dataUser.length === 0 && authenticate === 200 && (
                   <StyledLoginFail>Logowanie nie powiodło się</StyledLoginFail>
@@ -175,17 +138,20 @@ class LoginTemplate extends Component {
                 {loginStatus ? (
                   <AnimationLoading />
                 ) : (
-                  <StyledButtonLogin type="submit" disabled={isSubmitting}>
+                  <LogAndRegButton type="submit" disabled={isSubmitting}>
                     zaloguj
-                  </StyledButtonLogin>
+                  </LogAndRegButton>
                 )}
               </StyledForm>
             )}
           </Formik>
-          <StyledWrapperReg>
-            <StyledP>Nie masz jeszcze konta?</StyledP>
-            <StyledA to="/register">zarejstruj się</StyledA>
-          </StyledWrapperReg>
+          <StyledPositionWrapper>
+            <Forwarding
+              text="Nie masz jeszcze konta?"
+              textInLink="zarejstruj się"
+              linkTo="/register"
+            />
+          </StyledPositionWrapper>
 
           {/* logowanie do facebooka !!!!!!!!!!!! */}
           {/* {loginStatus ? <h1>logowanie w trakcie.......</h1> : null}
