@@ -127,7 +127,7 @@ export const finallyDeleteTodo = status => {
 export const getTodosToday = userId => {
   return dispatch => {
     axios
-      .get(`http://localhost:9000/days`, {
+      .get(`https://cors-anywhere.herokuapp.com/https://glacial-inlet-42048.herokuapp.com/days`, {
         headers: {
           'Access-Control-Allow-Origin': '*',
         },
@@ -144,15 +144,18 @@ export const getTodosToday = userId => {
 export const getDoneTodos = (userId, date) => {
   return dispatch => {
     axios
-      .get(`http://localhost:9000/daysDone`, {
-        headers: {
-          'Access-Control-Allow-Origin': '*',
+      .get(
+        `https://cors-anywhere.herokuapp.com/https://glacial-inlet-42048.herokuapp.com/daysDone`,
+        {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+          },
+          params: {
+            userId,
+            date,
+          },
         },
-        params: {
-          userId,
-          date,
-        },
-      })
+      )
       .then(res => {
         return dispatch(finallyRequestDoneTodo(res.data.data));
       });
@@ -162,7 +165,7 @@ export const getDoneTodos = (userId, date) => {
 export const LoginUser = (email, password) => {
   return dispatch => {
     axios
-      .get(`http://localhost:9000/login`, {
+      .get(`https://cors-anywhere.herokuapp.com/https://glacial-inlet-42048.herokuapp.com/login`, {
         headers: {
           'Access-Control-Allow-Origin': '*',
         },
@@ -189,17 +192,20 @@ export const LoginUser = (email, password) => {
 export const registerUser = (name, email, password) => {
   return dispatch => {
     axios
-      .post(`http://localhost:9000/register`, {
-        body: {
-          userId: '',
-          name,
-          email,
-          password,
+      .post(
+        `https://cors-anywhere.herokuapp.com/https://glacial-inlet-42048.herokuapp.com/register`,
+        {
+          body: {
+            userId: '',
+            name,
+            email,
+            password,
+          },
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
         },
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      })
+      )
       .then(result => {
         dispatch(
           finallyRegister(
@@ -214,11 +220,14 @@ export const registerUser = (name, email, password) => {
 export const checkUserName = (name, email, password) => {
   return dispatch => {
     axios
-      .get(`http://localhost:9000/userEmail`, {
-        params: {
-          email,
+      .get(
+        `https://cors-anywhere.herokuapp.com/https://glacial-inlet-42048.herokuapp.com/userEmail`,
+        {
+          params: {
+            email,
+          },
         },
-      })
+      )
       .then(res => {
         if (res.data.data.length === 0) {
           dispatch(registerUser(name, email, password));
@@ -232,28 +241,34 @@ export const checkUserName = (name, email, password) => {
   };
 };
 
-export const addTodo = (title, days) => {
+export const addTodo = (title, days, hours, minutes, images) => {
   const userKey = sessionStorage.getItem('key');
 
   return dispatch => {
     axios
-      .post(`http://localhost:9000/addDay`, {
-        body: {
-          id: '',
-          userId: userKey,
-          title,
-          monday: days[0],
-          tuesday: days[1],
-          wednesday: days[2],
-          thursday: days[3],
-          friday: days[4],
-          saturday: days[5],
-          sunday: days[6],
+      .post(
+        `https://cors-anywhere.herokuapp.com/https://glacial-inlet-42048.herokuapp.com/addDay`,
+        {
+          body: {
+            id: '',
+            userId: userKey,
+            title,
+            monday: days[0],
+            tuesday: days[1],
+            wednesday: days[2],
+            thursday: days[3],
+            friday: days[4],
+            saturday: days[5],
+            sunday: days[6],
+            hours,
+            minutes,
+            images,
+          },
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
         },
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      })
+      )
       .then(res => {
         dispatch(finallyAddTodo(res.status, res.data.message));
       });
@@ -265,12 +280,15 @@ export const deleteTodo = id => {
 
   return dispatch => {
     axios
-      .delete(`http://localhost:9000/deleteTodo`, {
-        params: {
-          id,
-          userId: userKey,
+      .delete(
+        `https://cors-anywhere.herokuapp.com/https://glacial-inlet-42048.herokuapp.com/deleteTodo`,
+        {
+          params: {
+            id,
+            userId: userKey,
+          },
         },
-      })
+      )
       .then(res => {
         dispatch(finallyDeleteTodo(res.status));
       });
@@ -282,18 +300,21 @@ export const addTodoDone = (idTodo, title, date) => {
 
   return dispatch => {
     axios
-      .post(`http://localhost:9000/addDayDone`, {
-        body: {
-          id: '',
-          userId: userKey,
-          idTodo,
-          date,
-          title,
+      .post(
+        `https://cors-anywhere.herokuapp.com/https://glacial-inlet-42048.herokuapp.com/addDayDone`,
+        {
+          body: {
+            id: '',
+            userId: userKey,
+            idTodo,
+            date,
+            title,
+          },
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
         },
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      })
+      )
       .then(() => {
         dispatch(getDoneTodos(userKey, date));
       });

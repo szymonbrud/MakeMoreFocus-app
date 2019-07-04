@@ -1,110 +1,43 @@
 import React, { Component } from 'react';
-import styled, { css } from 'styled-components';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Field } from 'formik';
 import { connect } from 'react-redux';
 import { addTodo, finallyAddTodo } from 'actions';
 import { Redirect } from 'react-router-dom';
 import propTypes from 'prop-types';
-
-const StyledMainTemplate = styled.div`
-  min-height: 100%;
-  width: 100%;
-`;
-
-const StyledForm = styled(Form)`
-  width: 95%;
-  margin: 2vh 0 0 5%;
-  display: flex;
-  flex-direction: column;
-`;
-
-const StyledP = styled.p`
-  margin: 0 0 3px 0;
-  font-weight: 400;
-`;
-
-const StyledField = styled(Field)`
-  width: 60%;
-  border: 1px solid ${({ theme }) => theme.blue};
-  border-radius: 5px;
-  height: 4vh;
-  max-height: 40px;
-  min-height: 30px;
-  padding: 5px;
-  margin-bottom: 17px;
-`;
-
-const StyledFieldTime = styled(StyledField)`
-  width: 20%;
-  margin-right: 10px;
-  text-align: center;
-`;
-
-const StyledCheckDay = styled.div`
-  border: 1px solid ${({ theme }) => theme.blue};
-  color: black;
-  display: flex;
-  font-weight: 600;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  background: white;
-  height: 4vh;
-  border-radius: 5px;
-  width: 80%;
-  font-size: 1.4rem;
-
-  ${({ active }) =>
-    active &&
-    css`
-      background: ${({ theme }) => theme.blue};
-    `}
-`;
-
-const StyledMainWrapperCheckDay = styled.div`
-  width: 100%;
-  display: flex;
-`;
-
-const StyledWrapperFirstCheckDays = styled.div`
-  width: 30%;
-  border-right: 1px solid black;
-  display: flex;
-  flex-direction: column;
-  height: 20vh;
-  align-items: center;
-  justify-content: space-evenly;
-`;
-
-const StyledSecoundDays = styled(StyledCheckDay)`
-  width: 96%;
-`;
-
-const StyledWrappeSecoundCheckDays = styled.div`
-  margin-left: 10px;
-  width: 70%;
-  height: 15vh;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 10px;
-`;
-
-const StyledButtonLogin = styled.button`
-  width: 40%;
-  height: 40px;
-  border: none;
-  color: white;
-  background: ${({ theme }) => theme.blue};
-  margin: 5vh auto;
-  border-radius: 5px;
-`;
+import left_arrow from 'assets/icons/left_arrow.svg';
+import web_dev from 'assets/images/web_dev.svg';
+import {
+  StyledMainTemplate,
+  StyledForm,
+  StyledArrowIcon,
+  StyledNameSection,
+  StyledInput,
+  StyledWrppaerForTime,
+  StyledCheckboxDay,
+  StyledMainWrapperDays,
+  StyledWrapperWeekDays,
+  StyledWrapperAllDays,
+  StyledAllChecboxDays,
+  StyledWrapperImages,
+  StyledOneImage,
+  StyledImageIcon,
+  StyledMoreImage,
+  StyledWrapperPositionButtons,
+  StyledBack,
+  StyledLeaveButton,
+} from 'StyledTemplates/AddTodoTemplate.style';
+import LogAndRegButton from 'components/atoms/LogAndRegButton/LogAndRegButton';
+import AnimationLoading from 'components/molecules/AnimationLoading/AnimationLoading';
 
 class AddTodoTemplate extends Component {
   state = {
     daysOfWeek: [],
+    dayWeek: [],
+    loading: false,
   };
 
   changeDay = i => {
+    this.setState({ dayWeek: [false, false] });
     const { daysOfWeek } = this.state;
     const days = daysOfWeek;
     const newDays = days;
@@ -116,8 +49,23 @@ class AddTodoTemplate extends Component {
     this.setState({ daysOfWeek: newDays });
   };
 
+  changeDayWeek = i => {
+    this.setState({});
+    if (i === 0) {
+      this.setState({
+        dayWeek: [true, false],
+        daysOfWeek: [true, true, true, true, true, true, true],
+      });
+    } else {
+      this.setState({
+        dayWeek: [false, true],
+        daysOfWeek: [true, true, true, true, true, false, false],
+      });
+    }
+  };
+
   render() {
-    const { daysOfWeek } = this.state;
+    const { daysOfWeek, dayWeek, loading } = this.state;
     // eslint-disable-next-line
     const { addTodos, addTodo, addTodoAct } = this.props;
 
@@ -141,39 +89,85 @@ class AddTodoTemplate extends Component {
         <Formik
           initialValues={{ title: '', h: '', m: '' }}
           onSubmit={(value, { setSubmitting }) => {
-            addTodos(value.title, daysOfWeek);
+            // eslint-disable-next-line
+            const hours = parseInt(value.h);
+            // eslint-disable-next-line
+            const minutes = parseInt(value.m);
+
+            if (hours <= 24 && minutes <= 60 && value.title.length > 3) {
+              this.setState({ loading: true });
+              addTodos(value.title, daysOfWeek, hours, minutes, 4);
+            }
             setSubmitting(false);
           }}
         >
           {({ isSubmitting }) => (
             <StyledForm>
-              <StyledP>nazwa zadania</StyledP>
-              <StyledField as={Field} type="text" placeholder="nazwa zadania" name="title" />
-              <StyledP>ile czsu chcę na to poświęcić w dniu</StyledP>
-              <div>
-                <StyledFieldTime as={Field} type="number" placeholder="godziny" name="h" />
-                <StyledFieldTime as={Field} type="number" placeholder="minuty" name="m" />
-              </div>
-              <StyledP>wybierz dni w których chcesz wykonywać zadanie</StyledP>
-              <StyledMainWrapperCheckDay>
-                <StyledWrapperFirstCheckDays>
-                  <StyledCheckDay>codziennie</StyledCheckDay>
-                  <StyledCheckDay>w tygodniu</StyledCheckDay>
-                </StyledWrapperFirstCheckDays>
-                <StyledWrappeSecoundCheckDays>
-                  {weekDays.map((element, i) => (
-                    <StyledSecoundDays
+              <StyledBack to="/todo">
+                <StyledArrowIcon src={left_arrow} />
+              </StyledBack>
+              <StyledNameSection>Nazwa zadania</StyledNameSection>
+              <StyledInput as={Field} type="text" placeholder="nazwa zadania" name="title" />
+              <StyledNameSection>Ile czasu chcemy na to poświęcać</StyledNameSection>
+              <StyledWrppaerForTime>
+                <StyledInput as={Field} type="number" placeholder="godziny" name="h" time />
+                <StyledInput as={Field} type="number" placeholder="minuty" name="m" time />
+              </StyledWrppaerForTime>
+              <StyledNameSection center>W jakie dni chcesz je wykonywać</StyledNameSection>
+              <StyledMainWrapperDays>
+                <StyledWrapperWeekDays>
+                  <StyledCheckboxDay onClick={() => this.changeDayWeek(0)} active={dayWeek[0]}>
+                    codziennie
+                  </StyledCheckboxDay>
+                  <StyledCheckboxDay onClick={() => this.changeDayWeek(1)} active={dayWeek[1]}>
+                    w tygodniu
+                  </StyledCheckboxDay>
+                </StyledWrapperWeekDays>
+                <StyledWrapperAllDays>
+                  {weekDays.map((e, i) => (
+                    <StyledAllChecboxDays
                       onClick={() => this.changeDay(i)}
                       active={daysOfWeek[i] === true}
                     >
-                      {element}
-                    </StyledSecoundDays>
+                      {e}
+                    </StyledAllChecboxDays>
                   ))}
-                </StyledWrappeSecoundCheckDays>
-              </StyledMainWrapperCheckDay>
-              <StyledButtonLogin type="submit" disabled={isSubmitting}>
-                akceptuje
-              </StyledButtonLogin>
+                </StyledWrapperAllDays>
+              </StyledMainWrapperDays>
+              <StyledNameSection center>Obrazek do zadania</StyledNameSection>
+              <StyledWrapperImages>
+                <StyledOneImage>
+                  <StyledImageIcon src={web_dev} />
+                </StyledOneImage>
+                <StyledOneImage>
+                  <StyledImageIcon src={web_dev} />
+                </StyledOneImage>
+                <StyledOneImage>
+                  <StyledImageIcon src={web_dev} />
+                </StyledOneImage>
+                <StyledOneImage>
+                  <StyledImageIcon src={web_dev} />
+                </StyledOneImage>
+                <StyledOneImage>
+                  <StyledImageIcon src={web_dev} />
+                </StyledOneImage>
+                <StyledOneImage>
+                  <StyledImageIcon src={web_dev} />
+                </StyledOneImage>
+              </StyledWrapperImages>
+              <StyledMoreImage>więcej</StyledMoreImage>
+              <StyledWrapperPositionButtons>
+                {loading ? (
+                  <AnimationLoading />
+                ) : (
+                  <>
+                    <LogAndRegButton radius type="submit" disabled={isSubmitting}>
+                      zapisz
+                    </LogAndRegButton>
+                    <StyledLeaveButton to="/todo">anuluj</StyledLeaveButton>
+                  </>
+                )}
+              </StyledWrapperPositionButtons>
             </StyledForm>
           )}
         </Formik>

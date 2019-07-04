@@ -34,6 +34,7 @@ const App = () => (
         <PrivateRoute exact path="/todo" component={TodoTemplate} />
         <PrivateRoute exact path="/todo/:id" component={EditTemplate} />
         <PrivateRoute exact path="/addTodo" component={AddTodoTemplate} />
+        <Route exact path="/" component={LoginTemplate} />
         <Route exact path="/login" component={LoginTemplate} />
         <Route exact path="/register" component={RegisterTemplate} />
       </Switch>

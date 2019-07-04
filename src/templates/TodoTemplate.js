@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { getTodosToday, getDoneTodos } from 'actions';
 import propTypes from 'prop-types';
 import ButtonNewTodo from 'components/molecules/ButtonNewTodo/ButtonNewTodo';
+import HaveNotAnyTodoTemplate from 'templates/HaveNotAnyTodoTemplate';
+import AnimationLoading from 'components/molecules/AnimationLoading/AnimationLoading';
 
 const StyledWrapper = styled.section`
   width: 100%;
@@ -65,30 +67,40 @@ class TodoTemplate extends Component {
 
     return (
       <StyledWrapper>
-        {todos.length !== 0
-          ? NamesOfDays.map((element, index) => {
-              const dateToday = new Date(year, month, day + index);
-              const todayDayName = NamesOfDays[dateToday.getDay()];
-              let todayDay = dateToday.getDate();
-              let todayMonth = dateToday.getMonth();
-              const todayYear = dateToday.getFullYear();
+        {todos.length !== 0 ? (
+          NamesOfDays.map((element, index) => {
+            const dateToday = new Date(year, month, day + index);
+            const todayDayName = NamesOfDays[dateToday.getDay()];
+            let todayDay = dateToday.getDate();
+            let todayMonth = dateToday.getMonth();
+            const todayYear = dateToday.getFullYear();
 
-              todayDay = this.addZeroToDate(todayDay);
-              todayMonth = this.addZeroToDate(todayMonth);
+            todayDay = this.addZeroToDate(todayDay);
+            todayMonth = this.addZeroToDate(todayMonth);
 
-              const yesterdayDate = new Date(todayYear, todayMonth, todayDay - 1);
+            const yesterdayDate = new Date(todayYear, todayMonth, todayDay);
 
-              let yesterdayDay = yesterdayDate.getDate();
-              let yesterdayMonth = yesterdayDate.getMonth();
-              const yesterdayYear = yesterdayDate.getFullYear();
+            let yesterdayDay = yesterdayDate.getDate();
+            let yesterdayMonth = yesterdayDate.getMonth();
+            const yesterdayYear = yesterdayDate.getFullYear();
 
-              yesterdayMonth += 1;
+            yesterdayMonth += 1;
 
-              yesterdayDay = this.addZeroToDate(yesterdayDay);
-              yesterdayMonth = this.addZeroToDate(yesterdayMonth);
+            yesterdayDay = this.addZeroToDate(yesterdayDay);
+            yesterdayMonth = this.addZeroToDate(yesterdayMonth);
 
-              const fullYesterdayDate = `${yesterdayYear}-${yesterdayMonth}-${yesterdayDay}T22:00:00.000Z`;
+            const fullYesterdayDate = `${yesterdayYear}-${yesterdayMonth}-${yesterdayDay}T00:00:00.000Z`;
 
+            let check = false;
+
+            NamesOfDays.forEach(ele => {
+              // eslint-disable-next-line
+              for (const prop in todos[ele]) {
+                if (prop !== undefined) check = true;
+              }
+            });
+
+            if (check === true) {
               return todos.length !== 0 ? (
                 <TodoModel
                   date={{
@@ -97,15 +109,18 @@ class TodoTemplate extends Component {
                     todayMonth,
                     todayYear,
                   }}
-                  // zadania zrobione przeznowaczone dla tego dnia
-                  todoDone={todoDone.map((e, i) =>
-                    e.date === fullYesterdayDate ? todoDone[i] : null,
-                  )}
+                  todoDone={todoDone.map((e, i) => {
+                    return e.date === fullYesterdayDate ? todoDone[i] : null;
+                  })}
                   todo={todos[todayDayName]}
                 />
               ) : null;
-            })
-          : null}
+            }
+            return <>{index === 0 && <HaveNotAnyTodoTemplate />}</>;
+          })
+        ) : (
+          <AnimationLoading big />
+        )}
         <ButtonNewTodo to="/addTodo" />
       </StyledWrapper>
     );

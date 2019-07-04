@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import Icon from 'components/Icon/Icon';
 import web_dev from 'assets/images/web_dev.svg';
 import ButtonInTodo from 'components/molecules/ButtonInTodo/ButtonInTodo';
@@ -12,12 +12,22 @@ import propTypes from 'prop-types';
 
 const StyledWrapper = styled.div`
   width: 100%;
+  transform: scaleY(${({ LoadState }) => (LoadState ? 0.25 : 1)});
   height: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   margin: 10px 0;
+  overflow: hidden;
+  transition: transform 2s;
+
+  ${({ LoadState }) =>
+    LoadState &&
+    css`
+      background: ${({ theme }) => theme.blue};
+      border-radius: 10px;
+    `}
 `;
 
 const StyledWrapperForElements = styled.div`
@@ -71,11 +81,20 @@ const StyledIcon = styled(Icon)`
   margin-right: 30%;
 `;
 
+const StyledTitileDone = styled.p`
+  color: white;
+`;
 // eslint-disable-next-line
 class Todo extends Component {
+  state = {
+    LoadState: false,
+  };
+
   addToDoneTodo = () => {
     // eslint-disable-next-line
     const { data, date, addTodoDoneApi } = this.props;
+
+    this.setState({ LoadState: true });
 
     let liczba;
 
@@ -100,22 +119,32 @@ class Todo extends Component {
 
   render() {
     const { data } = this.props;
+    const { LoadState } = this.state;
 
     return (
-      <StyledWrapper>
-        <StyledIcon src={web_dev} />
-        <StyledWrapperForElements>
-          <StyledH1 to={`todo/${data.id}`}>{data.title}</StyledH1>
-          <StyledTime>2h</StyledTime>
-          <WrapperIcons>
-            <ButtonInTodo icons={icon_clock} first title="pomodo" />
-            {/* eslint-disable-next-line */}
-            <div onClick={() => this.addToDoneTodo()}>
-              <ButtonInTodo icons={icon_check} title="zrobione" />
-            </div>
-            <ButtonInTodo title="niestety" />
-          </WrapperIcons>
-        </StyledWrapperForElements>
+      <StyledWrapper LoadState={LoadState}>
+        {LoadState ? (
+          <StyledTitileDone>{data.title}</StyledTitileDone>
+        ) : (
+          <>
+            <StyledIcon src={web_dev} />
+            <StyledWrapperForElements>
+              <StyledH1 to={`todo/${data.id}`}>{data.title}</StyledH1>
+              {console.log(data)}
+              <StyledTime>
+                {data.hours}h {data.minutes}m
+              </StyledTime>
+              <WrapperIcons>
+                <ButtonInTodo icons={icon_clock} first title="pomodo" />
+                {/* eslint-disable-next-line */}
+                <div onClick={() => this.addToDoneTodo()}>
+                  <ButtonInTodo icons={icon_check} title="zrobione" />
+                </div>
+                <ButtonInTodo title="niestety" />
+              </WrapperIcons>
+            </StyledWrapperForElements>
+          </>
+        )}
       </StyledWrapper>
     );
   }

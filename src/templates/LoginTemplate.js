@@ -160,7 +160,11 @@ class LoginTemplate extends Component {
           ) : (
             <p>musisz sie najpierw zalogować {from.pathname}</p>
           )}
-          {buttonClick ? <p>login......</p> : <Button onClick={() => this.fbLogin()}>login</Button>} */}
+          {buttonClick ? (
+            <p>login......</p>
+          ) : (
+            <LogAndRegButton onClick={() => this.fbLogin()}>login to fb</LogAndRegButton>
+          )} */}
         </StyledContentWrapper>
       </StyledMainTemplate>
     );

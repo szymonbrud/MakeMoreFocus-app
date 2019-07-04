@@ -29,7 +29,7 @@ class EditTemplate extends Component {
     const userId = sessionStorage.getItem('key');
 
     axios
-      .get(`http://localhost:9000/day`, {
+      .get(`https://cors-anywhere.herokuapp.com/https://glacial-inlet-42048.herokuapp.com/day`, {
         params: {
           id,
           userId,

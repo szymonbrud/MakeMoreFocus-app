@@ -68,14 +68,16 @@ class TodoModel extends Component {
       <StyledMainWrapper>
         <Date>{`${getMonth(date.todayMonth + 1)} ${date.todayDay}`}</Date>
         <WrapperTodo>
-          {allTodos.length !== 0
-            ? allTodos.map(e => {
-                if (e.date === undefined) {
-                  return <Todo data={e} date={date} />;
-                }
-                return <TodoDone data={e} date={date} />;
-              })
-            : null}
+          {allTodos.length !== 0 ? (
+            allTodos.map(e => {
+              if (e.date === undefined) {
+                return <Todo data={e} date={date} />;
+              }
+              return <TodoDone data={e} date={date} />;
+            })
+          ) : (
+            <p>nie masz jszcze zadań na ten dzień dod je</p>
+          )}
         </WrapperTodo>
       </StyledMainWrapper>
     );
