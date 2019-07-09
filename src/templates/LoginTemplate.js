@@ -18,6 +18,9 @@ const StyledMainTemplate = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
   align-items: center;
   justify-content: center;
 `;

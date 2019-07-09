@@ -19,6 +19,9 @@ const StyledMainWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  position: fixed;
+  left: 0;
+  top: 0;
 `;
 
 const StyledWrapper = styled.div`

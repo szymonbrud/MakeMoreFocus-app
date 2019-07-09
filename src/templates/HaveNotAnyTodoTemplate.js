@@ -4,11 +4,16 @@ import { Link } from 'react-router-dom';
 
 const StyledMainWrapper = styled.div`
   width: 100%;
-  height: 100vh;
+  height: calc(100% - 50px);
   display: flex;
+  position: absolute;
+  background: white;
+  top: 51px;
+  left: 0;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  border-radius: 10px;
 `;
 
 const StyledBigH1 = styled.h1`

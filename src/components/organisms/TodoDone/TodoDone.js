@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const StyledMainWrapper = styled.div`
   width: 100%;
@@ -9,6 +9,12 @@ const StyledMainWrapper = styled.div`
   border-radius: 5px;
   display: flex;
   align-items: center;
+
+  ${({ state }) =>
+    state &&
+    css`
+      background: #53585e;
+    `}
 `;
 
 const StyledTitle = styled.h1`
@@ -30,7 +36,7 @@ const StyledTitle = styled.h1`
 
 // eslint-disable-next-line
 const TodoDone = ({ data }) => (
-  <StyledMainWrapper>
+  <StyledMainWrapper state={data.state === 0}>
     <StyledTitle>{data.title}</StyledTitle>
   </StyledMainWrapper>
 );

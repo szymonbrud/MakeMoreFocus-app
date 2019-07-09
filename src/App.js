@@ -6,6 +6,8 @@ import LoginTemplate from 'templates/LoginTemplate';
 import RegisterTemplate from 'templates/RegisterTemplate';
 import AddTodoTemplate from 'templates/AddTodoTemplate';
 import EditTemplate from 'templates/EditTemplate';
+import ShowDoneTodosTemplate from 'templates/ShowDoneTodosTemplate';
+import ShowDoneTodoOneTemplate from 'templates/ShowDoneTodoOneTemplate';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   return (
@@ -34,6 +36,8 @@ const App = () => (
         <PrivateRoute exact path="/todo" component={TodoTemplate} />
         <PrivateRoute exact path="/todo/:id" component={EditTemplate} />
         <PrivateRoute exact path="/addTodo" component={AddTodoTemplate} />
+        <PrivateRoute exact path="/doneTodo" component={ShowDoneTodosTemplate} />
+        <PrivateRoute exact path="/doneTodo/:id" component={ShowDoneTodoOneTemplate} />
         <Route exact path="/" component={LoginTemplate} />
         <Route exact path="/login" component={LoginTemplate} />
         <Route exact path="/register" component={RegisterTemplate} />

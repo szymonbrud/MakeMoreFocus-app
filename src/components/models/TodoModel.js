@@ -16,6 +16,10 @@ const WrapperTodo = styled.div`
   margin-left: 2%;
 `;
 
+const StyledP = styled.p`
+  text-align: center;
+`;
+
 class TodoModel extends Component {
   state = {};
 
@@ -76,7 +80,7 @@ class TodoModel extends Component {
               return <TodoDone data={e} date={date} />;
             })
           ) : (
-            <p>nie masz jszcze zadań na ten dzień dod je</p>
+            <StyledP>Nie masz jeszcze zadanek na ten dzień</StyledP>
           )}
         </WrapperTodo>
       </StyledMainWrapper>

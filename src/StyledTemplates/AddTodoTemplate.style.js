@@ -7,22 +7,10 @@ import { Link } from 'react-router-dom';
 export const StyledMainTemplate = styled.div`
   min-height: 100vh;
   width: 100%;
-  background-image: url(${BGLogin2});
-  background-repeat: no-repeat;
-  background-size: cover;
-  padding-bottom: 6vh;
 `;
 
 export const StyledForm = styled(Form)`
-  min-height: 94vh;
-  width: 92%;
-  position: relative;
-  top: 3vh;
-  left: 4%;
-  background: white;
-  display: flex;
-  flex-direction: column;
-  border-radius: 10px;
+  width: 100%;
 `;
 
 export const StyledBack = styled(Link)`
@@ -32,6 +20,7 @@ export const StyledBack = styled(Link)`
 export const StyledArrowIcon = styled(Icon)`
   width: 20px;
   height: 20px;
+  margin-left: 10px;
 `;
 
 export const StyledNameSection = styled.p`

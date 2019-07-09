@@ -50,17 +50,5 @@
     "@storybook/react": "^5.1.9",
     "@storybook/addon-actions": "^5.1.9",
     "@storybook/addon-links": "^5.1.9"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.js": [
-      "prettier --config .prettierrc --write",
-      "eslint --fix",
-      "git add"
-    ]
   }
 }

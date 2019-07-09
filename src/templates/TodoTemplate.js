@@ -7,6 +7,8 @@ import propTypes from 'prop-types';
 import ButtonNewTodo from 'components/molecules/ButtonNewTodo/ButtonNewTodo';
 import HaveNotAnyTodoTemplate from 'templates/HaveNotAnyTodoTemplate';
 import AnimationLoading from 'components/molecules/AnimationLoading/AnimationLoading';
+import TopBar from 'components/organisms/TopBar/TopBar';
+import BlockWithSvg from 'components/molecules/BlockWithSvg/BlockWithSvg';
 
 const StyledWrapper = styled.section`
   width: 100%;
@@ -21,8 +23,7 @@ class TodoTemplate extends Component {
   };
 
   componentDidMount() {
-    const { getTodos, getDone } = this.props;
-    const userId = sessionStorage.getItem('key');
+    const { todos, getNewData } = this.props;
 
     const todayDate = new Date();
     let day = todayDate.getDate();
@@ -38,11 +39,19 @@ class TodoTemplate extends Component {
     day = this.addZeroToDate(day);
     month = this.addZeroToDate(month);
 
-    const fullTodayDate = `${year}-${month}-${day - 1}`;
+    if (todos.monday === undefined || getNewData) {
+      const fullTodayDate = `${year}-${month}-${day - 1}`;
+      this.getTodos(fullTodayDate);
+    }
+  }
+
+  getTodos = fullTodayDate => {
+    const userId = sessionStorage.getItem('key');
+    const { getTodos, getDone } = this.props;
 
     getTodos(userId);
     getDone(userId, fullTodayDate);
-  }
+  };
 
   addZeroToDate = day => {
     if (day < 10) {
@@ -67,6 +76,8 @@ class TodoTemplate extends Component {
 
     return (
       <StyledWrapper>
+        <TopBar />
+        {todos.length !== 0 && <BlockWithSvg />}
         {todos.length !== 0 ? (
           NamesOfDays.map((element, index) => {
             const dateToday = new Date(year, month, day + index);
@@ -147,6 +158,7 @@ const myActionToProps = {
 const mapDataOfTodo = state => ({
   todos: state.todosToday,
   todoDone: state.todoDone,
+  getNewData: state.getNewData,
 });
 
 export default connect(

@@ -6,8 +6,10 @@ export const AUTHENTICATE = 'AUTHENTICATE';
 export const CHECKUSER = 'CHECKUSER';
 export const FINALLYREGISTER = 'FINALLYREGISTER';
 export const DONETODO = 'DONETODO';
-export const FINALLYADDTODO = 'FINALLYADDTODO';
-export const FINALLYDELETETODO = 'FINALLYDELETETODO';
+export const GETNEWDATA = 'GETNEWDATA';
+export const FINALLYACTIONAPI = 'FINALLYACTIONAPI';
+export const FINALLYGETTODONORMALL = 'FINALLYGETTODONORMALL';
+export const FINALLYGETTODOTEST = 'FINALLYGETTODOTEST';
 
 export const finallyRequestGetTodos = items => {
   const todos = {
@@ -89,42 +91,54 @@ export const finallyRegister = (userData, message) => {
   };
 };
 
-export const finallyAddTodo = (status, message) => {
-  let mainStatus;
-
-  if (message === 'succes' && status === 200) {
-    mainStatus = true;
-  } else {
-    mainStatus = false;
-  }
-
+export const getNewData = state => {
   return {
-    type: FINALLYADDTODO,
+    type: GETNEWDATA,
     payload: {
-      authStatus: mainStatus,
+      authStatus: state,
     },
   };
 };
 
-export const finallyDeleteTodo = status => {
-  let mainStatus;
+export const finallyActionAPI = status => {
+  let state;
 
   if (status === 200) {
-    mainStatus = true;
+    state = true;
   } else {
-    mainStatus = false;
+    state = false;
   }
 
   return {
-    type: FINALLYDELETETODO,
+    type: FINALLYACTIONAPI,
     payload: {
-      authStatus: mainStatus,
+      authStatus: state,
+    },
+  };
+};
+
+export const finallyGetTodoNormall = state => {
+  return {
+    type: FINALLYGETTODONORMALL,
+    payload: {
+      data: state,
+    },
+  };
+};
+
+export const finallyGetTodoTest = status => {
+  return {
+    type: FINALLYGETTODOTEST,
+    payload: {
+      data: status,
     },
   };
 };
 
 // https://cors-anywhere.herokuapp.com/https://glacial-inlet-42048.herokuapp.com/day
-export const getTodosToday = userId => {
+export const getTodosToday = (userId, act) => {
+  const userKey = sessionStorage.getItem('key');
+
   return dispatch => {
     axios
       .get(`https://cors-anywhere.herokuapp.com/https://glacial-inlet-42048.herokuapp.com/days`, {
@@ -132,16 +146,24 @@ export const getTodosToday = userId => {
           'Access-Control-Allow-Origin': '*',
         },
         params: {
-          userId,
+          userId: userKey,
         },
       })
       .then(res => {
+        if (act === true) {
+          return dispatch(finallyGetTodoNormall(res.data.data));
+        }
         return dispatch(finallyRequestGetTodos(res.data.data));
+      })
+      .finally(() => {
+        return dispatch(finallyGetTodoTest(true));
       });
   };
 };
 
 export const getDoneTodos = (userId, date) => {
+  const userKey = sessionStorage.getItem('key');
+
   return dispatch => {
     axios
       .get(
@@ -151,7 +173,7 @@ export const getDoneTodos = (userId, date) => {
             'Access-Control-Allow-Origin': '*',
           },
           params: {
-            userId,
+            userId: userKey,
             date,
           },
         },
@@ -244,6 +266,27 @@ export const checkUserName = (name, email, password) => {
 export const addTodo = (title, days, hours, minutes, images) => {
   const userKey = sessionStorage.getItem('key');
 
+  const date = new Date();
+  let day = date.getDate();
+  let month = date.getMonth();
+  const year = date.getFullYear();
+
+  month += 1;
+
+  if (month < 10) {
+    month = `0${month}`;
+  } else {
+    month = `${month}`;
+  }
+
+  if (day < 10) {
+    day = `0${day}`;
+  } else {
+    day = `${day}`;
+  }
+
+  const fullDate = `${year}-${month}-${day}`;
+
   return dispatch => {
     axios
       .post(
@@ -263,6 +306,7 @@ export const addTodo = (title, days, hours, minutes, images) => {
             hours,
             minutes,
             images,
+            dateCreate: fullDate,
           },
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -270,8 +314,9 @@ export const addTodo = (title, days, hours, minutes, images) => {
         },
       )
       .then(res => {
-        dispatch(finallyAddTodo(res.status, res.data.message));
-      });
+        dispatch(finallyActionAPI(res.status));
+      })
+      .catch(() => dispatch(finallyActionAPI(false)));
   };
 };
 
@@ -290,12 +335,13 @@ export const deleteTodo = id => {
         },
       )
       .then(res => {
-        dispatch(finallyDeleteTodo(res.status));
-      });
+        dispatch(finallyActionAPI(res.status));
+      })
+      .catch(() => dispatch(finallyActionAPI(false)));
   };
 };
 
-export const addTodoDone = (idTodo, title, date) => {
+export const addTodoDone = (idTodo, title, date, hours, minutes, note, state) => {
   const userKey = sessionStorage.getItem('key');
 
   return dispatch => {
@@ -309,6 +355,10 @@ export const addTodoDone = (idTodo, title, date) => {
             idTodo,
             date,
             title,
+            state,
+            hours,
+            minutes,
+            note,
           },
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -317,6 +367,40 @@ export const addTodoDone = (idTodo, title, date) => {
       )
       .then(() => {
         dispatch(getDoneTodos(userKey, date));
+      });
+  };
+};
+
+export const changeTodo = (id, title, days, hours, minutes) => {
+  return dispatch => {
+    axios
+      .put(
+        `https://cors-anywhere.herokuapp.com/https://glacial-inlet-42048.herokuapp.com/changeTodo`,
+        {
+          body: {
+            id,
+            title,
+            monday: days[0],
+            tuesday: days[1],
+            wednesday: days[2],
+            thursday: days[3],
+            friday: days[4],
+            saturday: days[5],
+            sunday: days[6],
+            hours,
+            minutes,
+            images: 4,
+          },
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        },
+      )
+      .then(res => {
+        dispatch(finallyActionAPI(res.status));
+      })
+      .catch(() => {
+        dispatch(finallyActionAPI(false));
       });
   };
 };

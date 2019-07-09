@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Formik, Field } from 'formik';
 import { connect } from 'react-redux';
-import { addTodo, finallyAddTodo } from 'actions';
-import { Redirect } from 'react-router-dom';
+import { addTodo } from 'actions';
 import propTypes from 'prop-types';
 import left_arrow from 'assets/icons/left_arrow.svg';
 import web_dev from 'assets/images/web_dev.svg';
@@ -31,8 +30,8 @@ import AnimationLoading from 'components/molecules/AnimationLoading/AnimationLoa
 
 class AddTodoTemplate extends Component {
   state = {
-    daysOfWeek: [],
-    dayWeek: [],
+    daysOfWeek: [false, false, false, false, false, false, false],
+    dayWeek: [false, false],
     loading: false,
   };
 
@@ -67,7 +66,7 @@ class AddTodoTemplate extends Component {
   render() {
     const { daysOfWeek, dayWeek, loading } = this.state;
     // eslint-disable-next-line
-    const { addTodos, addTodo, addTodoAct } = this.props;
+    const { addTodos } = this.props;
 
     const weekDays = [
       'poniedziałek',
@@ -78,11 +77,6 @@ class AddTodoTemplate extends Component {
       'sobota',
       'niedziela',
     ];
-
-    if (addTodo || addTodo[0] === true) {
-      addTodoAct(199, false);
-      return <Redirect to="/todo" />;
-    }
 
     return (
       <StyledMainTemplate>
@@ -176,22 +170,15 @@ class AddTodoTemplate extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  addTodo: state.addTodo,
-});
-
 const mapActionToProps = {
   addTodos: addTodo,
-  addTodoAct: finallyAddTodo,
 };
 
 AddTodoTemplate.propTypes = {
   addTodos: propTypes.func.isRequired,
-  addTodoAct: propTypes.func.isRequired,
-  addTodo: propTypes.bool.isRequired,
 };
 
 export default connect(
-  mapStateToProps,
+  null,
   mapActionToProps,
 )(AddTodoTemplate);

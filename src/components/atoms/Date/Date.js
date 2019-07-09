@@ -7,10 +7,10 @@ const Date = styled.div`
   align-items: center;
   justify-content: center;
   padding: 6px 0px;
-  width: 70px;
+  width: ${({ big }) => (big ? '100px' : '70px')};
   font-weight: 700;
   border-radius: 0 10px 10px 0;
-  margin: 30px 0 15px 0;
+  margin: 0px 0 15px 0;
 `;
 
 export default Date;

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Icon from 'components/Icon/Icon';
 import propTypes from 'prop-types';
+import posed from 'react-pose';
 
 const StyledWrapper = styled.button`
   height: 25px;
@@ -67,13 +68,24 @@ const StyledIconWrapper = styled.div`
   background: white;
 `;
 
-const ButtonInTodo = ({ icons, first, title }) => (
-  <StyledWrapper>
+const StyledWrapperAnimate = posed(StyledWrapper)({
+  visible: {
+    opacity: 1,
+    x: '0',
+  },
+  hidden: {
+    opacity: 0,
+    x: '100%',
+  },
+});
+
+const ButtonInTodo = ({ icons, first, title, animation }) => (
+  <StyledWrapperAnimate pose={animation ? 'hidden' : 'visible'}>
     <StyledIconWrapper>
       {icons ? <StyledIcon src={icons} first={first} /> : <StyledXIcon />}
     </StyledIconWrapper>
     <StyledNameOfFunction>{title}</StyledNameOfFunction>
-  </StyledWrapper>
+  </StyledWrapperAnimate>
 );
 
 ButtonInTodo.propTypes = {
