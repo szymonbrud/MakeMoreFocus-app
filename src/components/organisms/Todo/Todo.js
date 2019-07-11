@@ -11,6 +11,12 @@ import { addTodoDone } from 'actions';
 import propTypes from 'prop-types';
 import { StyledInput } from 'StyledTemplates/AddTodoTemplate.style';
 import { Field, Formik, Form } from 'formik';
+import photo1 from 'assets/imagesTodo/photo1.svg';
+import photo2 from 'assets/imagesTodo/photo2.svg';
+import photo3 from 'assets/imagesTodo/photo3.svg';
+import photo4 from 'assets/imagesTodo/photo4.svg';
+import photo5 from 'assets/imagesTodo/photo5.svg';
+import photo6 from 'assets/imagesTodo/photo6.svg';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -171,7 +177,7 @@ const StyledTitle = styled.h1`
 const StyledContentInformation = styled.div`
   width: 100%;
   background: ${({ theme }) => theme.ligth_blue};
-  height: ${({ status }) => (status ? '300px' : '230px')};
+  height: ${({ status }) => (status ? '200px' : '230px')};
   margin: 10px 0;
   overflow: hidden;
   border-radius: 10px;
@@ -200,7 +206,6 @@ const StyledIconInformation = styled(Icon)`
 `;
 
 const StyledFormInformation = styled.div`
-  height: 60%;
   width: 50%;
   display: flex;
   flex-direction: column;
@@ -217,7 +222,7 @@ const StyledFormInformation = styled.div`
 
 const StyledInformationP = styled.p`
   color: ${({ theme }) => theme.blue};
-  margin: 0;
+  margin: 0 0 10px 0;
 `;
 
 const StyledInformationWrapper = styled.div`
@@ -256,6 +261,10 @@ const StyledInformationButton = styled.button`
   border-radius: 10px;
   height: 30px;
   width: 30%;
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
 `;
 
 class Todo extends Component {
@@ -333,6 +342,7 @@ class Todo extends Component {
   render() {
     const { data } = this.props;
     const { LoadState, animation, continueState, addInformations, cliced } = this.state;
+    const photos = [photo1, photo2, photo3, photo4, photo5, photo6];
 
     return (
       <>
@@ -346,9 +356,10 @@ class Todo extends Component {
               <Formik
                 initialValues={{ h: '', m: '', content: '' }}
                 onSubmit={(value, { setSubmitting }) => {
-                  console.log(value);
-                  this.addToDoneTodoApi(value.h, value.m, value.content);
-                  this.setState({ continueState: true });
+                  if (value.h !== '' && value.m !== '') {
+                    this.addToDoneTodoApi(value.h, value.m, value.content);
+                    this.setState({ continueState: true });
+                  }
                 }}
               >
                 {({ isSubmitting }) => (
@@ -356,7 +367,7 @@ class Todo extends Component {
                     <StyledContentInformation status={cliced}>
                       <StyledH1Information>{data.title}</StyledH1Information>
                       <StyledWrapperForSvg>
-                        <StyledIconInformation src={web_dev} />
+                        <StyledIconInformation src={photos[data.images]} />
                       </StyledWrapperForSvg>
                       <StyledFormInformation status={cliced}>
                         {cliced ? (
@@ -379,16 +390,7 @@ class Todo extends Component {
                               />
                             </StyledInformationWrapper>
                           </>
-                        ) : (
-                          <>
-                            <StyledInformationP>dodaj opis</StyledInformationP>
-                          </>
-                        )}
-                        <StyledInformationInputText
-                          component="textarea"
-                          name="opis"
-                          placeholder="opis"
-                        />
+                        ) : null}
                       </StyledFormInformation>
                       <StyledInformationButton>zapisz</StyledInformationButton>
                     </StyledContentInformation>
@@ -398,20 +400,28 @@ class Todo extends Component {
             ) : (
               <>
                 <StyledWrapper LoadState={LoadState} addInformations={addInformations}>
-                  <StyledIcon src={web_dev} />
+                  <StyledIcon src={photos[data.images]} />
                   <StyledWrapperForElements>
                     <StyledH1 to={`todo/${data.id}`}>{data.title}</StyledH1>
                     <StyledTime>
                       {data.hours}h {data.minutes}m
                     </StyledTime>
                     <WrapperIcons>
-                      <ButtonInTodo icons={icon_clock} first title="pomodo" animation={animation} />
+                      {/* eslint-disable-next-line */}
+                      <StyledLink to="/pomodoro">
+                        <ButtonInTodo
+                          icons={icon_clock}
+                          first
+                          title="pomodo"
+                          animation={animation}
+                        />
+                      </StyledLink>
                       {/* eslint-disable-next-line */}
                       <div onClick={() => this.addTodoDone(true)}>
                         <ButtonInTodo icons={icon_check} title="zrobione" animation={animation} />
                       </div>
                       {/* eslint-disable-next-line */}
-                      <div onClick={() => this.addTodoDone(false)}>
+                      <div onClick={() => this.continue(false, false)}>
                         <ButtonInTodo title="niestety" animation={animation} />
                       </div>
                     </WrapperIcons>

@@ -53,13 +53,13 @@ const StyledLink = styled.p`
 
 const BlockWithSvg = () => (
   <StyledMainWrapper>
-    <StyledWrapper to="/todo">
+    <StyledWrapper to="/doneTodo">
       <StyledIcon src={done} />
-      <StyledLink to="/todo">zobacz jak ci idzie</StyledLink>
+      <StyledLink>zobacz jak ci idzie</StyledLink>
     </StyledWrapper>
-    <StyledWrapper>
+    <StyledWrapper to="/pomodoro">
       <StyledIcon src={time} />
-      <StyledLink to="/todo">rozpocznij pomodoro</StyledLink>
+      <StyledLink>rozpocznij pomodoro</StyledLink>
     </StyledWrapper>
   </StyledMainWrapper>
 );

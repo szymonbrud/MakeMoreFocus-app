@@ -68,9 +68,12 @@ class TodoModel extends Component {
       }
     }
 
+    const NameOfDayWeek = ['nie', 'pon', 'wt', 'śr', 'czw', 'pt', 'sob'];
+
     return (
       <StyledMainWrapper>
-        <Date>{`${getMonth(date.todayMonth + 1)} ${date.todayDay}`}</Date>
+        {console.log(date)}
+        <Date>{`${NameOfDayWeek[date.todayDayWeek]} ${date.todayDay}`}</Date>
         <WrapperTodo>
           {allTodos.length !== 0 ? (
             allTodos.map(e => {

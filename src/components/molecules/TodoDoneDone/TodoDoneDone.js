@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import web_dev from 'assets/images/web_dev.svg';
 import Icon from 'components/Icon/Icon';
 import { Link } from 'react-router-dom';
-import left_arrow from 'assets/icons/left_arrow.svg';
+import arrow_white_icon from 'assets/icons/arrow_white_icon.svg';
+import icon_clock from 'assets/icons/icon_clock.svg';
 
 const PostionPhoto = styled.div`
   width: 94%;
@@ -23,37 +24,34 @@ const StyledMainWrapper = styled.div`
   background: ${({ theme }) => theme.opacityBlue2};
   display: flex;
   align-items: center;
-  height: 90px;
+  justify-content: space-between;
+  min-height: 90px;
   border-radius: 10px;
 `;
 
 const StyledP = styled.p`
   color: white;
-  font-size: 1.8rem;
+  font-size: 2rem;
   margin: 0 0 0 10px;
   width: 50%;
 `;
 
 const StyledPTime = styled.p`
-  width: 30%;
+  width: 40%;
   margin: 0;
   color: white;
+  display: flex;
+  align-items: center;
 `;
 
 const StyledIcon = styled(Icon)`
   transform: scale(0.1);
-  margin-left: -45vw;
+  margin-left: -50vw;
 `;
 
-const StyledArrowIcon = styled(Icon)`
-  width: 16px;
-  height: 16px;
-  transform: rotate(180deg);
-`;
-
-const StyledLink = styled(Link)`
-  position: absolute;
-  right: 7px;
+const StyledIconClock = styled(Icon)`
+  display: inline-block;
+  transform: scale(0.6);
 `;
 
 const TodoDoneDone = ({ data }) => (
@@ -61,10 +59,10 @@ const TodoDoneDone = ({ data }) => (
     <StyledIcon src={web_dev} />
     <StyledMainWrapper>
       <StyledP>{data.title}</StyledP>
-      <StyledPTime>{`${data.hours}h ${data.minutes}m`}</StyledPTime>
-      <StyledLink to={`doneTodo/${data.id}`}>
-        <StyledArrowIcon src={left_arrow} />
-      </StyledLink>
+      <StyledPTime>
+        <StyledIconClock src={icon_clock} />
+        {`${data.hours}h ${data.minutes}m`}
+      </StyledPTime>
     </StyledMainWrapper>
   </PostionPhoto>
 );

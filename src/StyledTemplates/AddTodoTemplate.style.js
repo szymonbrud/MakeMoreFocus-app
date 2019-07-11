@@ -159,6 +159,13 @@ export const StyledOneImage = styled.div`
   align-items: center;
   justify-content: center;
   margin-bottom: 10px;
+  border: none;
+
+  ${({ active }) =>
+    active &&
+    css`
+      border: 4px solid ${({ theme }) => theme.blue};
+    `}
 `;
 
 export const StyledImageIcon = styled(Icon)`

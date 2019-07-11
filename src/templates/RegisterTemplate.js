@@ -147,7 +147,7 @@ class RegisterTemplate extends Component {
       sessionStorage.setItem('currentUser', userData[1]);
       sessionStorage.setItem('key', userData[1].userId);
 
-      return <Redirect to="/todo" />;
+      return <Redirect to="/presentation" />;
     }
     return (
       <StyledMainWrapper>

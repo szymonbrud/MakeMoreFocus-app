@@ -4,26 +4,35 @@ import TodoDidNotDone from 'components/molecules/TodoDidNotDone/TodoDidNotDone';
 import TodoDoneDone from 'components/molecules/TodoDoneDone/TodoDoneDone';
 
 const TodoDoneAn = ({ date, todoToday, todayDone }) => {
-  let przep = true;
+  let przep = false;
   const tab = [];
+  let leng = 0;
 
   if (todoToday.length !== 0) {
     todoToday.forEach((e, i) => {
-      przep = true;
-      if (todayDone.length === 0) {
-        tab[i] = e;
-      }
+      przep = false;
+      leng = todayDone.length;
       if (e !== null) {
-        todayDone.forEach(element => {
-          if (element !== null) {
-            przep = false;
-            if (element.idTodo === e.id) {
-              tab[i] = element;
-            } else {
-              tab[i] = e;
+        todayDone.forEach((element, index) => {
+          if (przep === false) {
+            if (leng - 1 === index) {
+              if (element !== null) {
+                console.log('opcja 1');
+                if (element.idTodo === e.id) {
+                  tab[i] = element;
+                  przep = true;
+                }
+              } else {
+                console.log('opcja 2');
+                tab[i] = e;
+              }
+            } else if (element !== null) {
+              console.log('opcja ostatnia');
+              if (element.idTodo === e.id) {
+                tab[i] = element;
+                przep = true;
+              }
             }
-          } else if (przep) {
-            tab[i] = e;
           }
         });
       }
@@ -60,6 +69,7 @@ const TodoDoneAn = ({ date, todoToday, todayDone }) => {
         <>
           {e !== null && (
             <>
+              {/* {console.log(e)} */}
               {e.date === undefined ? (
                 <>
                   <TodoDidNotDone data={e} />

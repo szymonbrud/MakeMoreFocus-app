@@ -20,12 +20,21 @@ import {
   StyledAllChecboxDays,
   StyledWrapperPositionButtons,
   StyledLeaveButton,
+  StyledOneImage,
+  StyledImageIcon,
+  StyledWrapperImages,
 } from 'StyledTemplates/AddTodoTemplate.style';
 import left_arrow from 'assets/icons/left_arrow.svg';
 import icon_trash from 'assets/icons/icon_trash.svg';
 import web_dev from 'assets/images/web_dev.svg';
 import Icon from 'components/Icon/Icon';
 import LogAndRegButton from 'components/atoms/LogAndRegButton/LogAndRegButton';
+import photo1 from 'assets/imagesTodo/photo1.svg';
+import photo2 from 'assets/imagesTodo/photo2.svg';
+import photo3 from 'assets/imagesTodo/photo3.svg';
+import photo4 from 'assets/imagesTodo/photo4.svg';
+import photo5 from 'assets/imagesTodo/photo5.svg';
+import photo6 from 'assets/imagesTodo/photo6.svg';
 
 const StyledBackRight = styled(StyledBack)`
   position: absolute;
@@ -61,6 +70,10 @@ const StyledWrapperPositionButtonsEdit = styled(StyledWrapperPositionButtons)`
   margin-top: 30px;
 `;
 
+const StyledWrapperImagesEdit = styled(StyledWrapperImages)`
+  margin-top: 30px;
+`;
+
 class EditTemplate extends Component {
   state = {
     data: {},
@@ -69,6 +82,7 @@ class EditTemplate extends Component {
     daysOfWeek: [],
     block: true,
     loadingSend: false,
+    photoNumber: 0,
   };
 
   componentDidMount() {
@@ -85,6 +99,7 @@ class EditTemplate extends Component {
       })
       .then(res => {
         this.setState({ data: res.data.data[0] });
+        this.setState({ photoNumber: res.data.data[0].images });
         this.setState({ loading: true });
       });
   }
@@ -123,8 +138,13 @@ class EditTemplate extends Component {
     deleteTodoApi(data.id);
   };
 
+  checkPhoto = i => {
+    this.setState({ photoNumber: i });
+  };
+
   render() {
-    const { data, loading, dayWeek, daysOfWeek, loadingSend, block } = this.state;
+    const { data, loading, dayWeek, daysOfWeek, loadingSend, block, photoNumber } = this.state;
+    const photos = [photo1, photo2, photo3, photo4, photo5, photo6];
     // eslint-disable-next-line
     const { changeTodoApi } = this.props;
 
@@ -173,7 +193,7 @@ class EditTemplate extends Component {
             onSubmit={(value, { setSubmitting }) => {
               if (value.title.length > 3) {
                 this.setState({ loadingSend: true });
-                changeTodoApi(data.id, value.title, daysOfWeek, value.h, value.m);
+                changeTodoApi(data.id, value.title, daysOfWeek, value.h, value.m, photoNumber);
               }
               setSubmitting(false);
             }}
@@ -187,7 +207,7 @@ class EditTemplate extends Component {
                   <StyledArrowIconRight src={icon_trash} />
                 </StyledBackRight>
                 <StyledWarpperImage>
-                  <StyledIcon src={web_dev} />
+                  <StyledIcon src={photos[data.images]} />
                 </StyledWarpperImage>
                 <StyledInputEdit as={Field} type="text" placeholder="nazwa zadania" name="title" />
                 <StyledWrppaerForTime>
@@ -215,6 +235,13 @@ class EditTemplate extends Component {
                     ))}
                   </StyledWrapperAllDays>
                 </StyledMainWrapperDays>
+                <StyledWrapperImagesEdit>
+                  {photos.map((e, i) => (
+                    <StyledOneImage onClick={() => this.checkPhoto(i)} active={photoNumber === i}>
+                      <StyledImageIcon src={e} />
+                    </StyledOneImage>
+                  ))}
+                </StyledWrapperImagesEdit>
                 {/* ======================================= */}
                 <StyledWrapperPositionButtonsEdit>
                   {loadingSend ? (

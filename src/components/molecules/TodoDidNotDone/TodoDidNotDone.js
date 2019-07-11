@@ -36,9 +36,6 @@ const StyledLink = styled(Link)`
 const TodoDidNotDone = ({ data }) => (
   <StyledMainWrapper>
     <StyledP>{data.title}</StyledP>
-    <StyledLink>
-      <StyledArrowIcon src={left_arrow} />
-    </StyledLink>
   </StyledMainWrapper>
 );
 

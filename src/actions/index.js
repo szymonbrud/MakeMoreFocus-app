@@ -371,7 +371,7 @@ export const addTodoDone = (idTodo, title, date, hours, minutes, note, state) =>
   };
 };
 
-export const changeTodo = (id, title, days, hours, minutes) => {
+export const changeTodo = (id, title, days, hours, minutes, images) => {
   return dispatch => {
     axios
       .put(
@@ -389,7 +389,7 @@ export const changeTodo = (id, title, days, hours, minutes) => {
             sunday: days[6],
             hours,
             minutes,
-            images: 4,
+            images,
           },
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',

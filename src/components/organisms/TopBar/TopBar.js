@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import Menu from 'components/organisms/Menu/Menu';
 
 const StyledMainTemplate = styled.div`
   height: 50px;
@@ -63,16 +64,22 @@ const TopBar = () => {
 
   const toggleMobileMenu = () => {
     setMenuState(!isMenuOpen);
-    console.log(isMenuOpen);
+  };
+
+  const getClose = () => {
+    setMenuState(!isMenuOpen);
   };
 
   return (
-    <StyledMainTemplate>
-      <StyledBurgerWrapper onClick={toggleMobileMenu}>
-        <StyledBurger />
-      </StyledBurgerWrapper>
-      <StyledTitleApp>make more app</StyledTitleApp>
-    </StyledMainTemplate>
+    <>
+      <StyledMainTemplate>
+        <StyledBurgerWrapper onClick={toggleMobileMenu}>
+          <StyledBurger />
+        </StyledBurgerWrapper>
+        <StyledTitleApp>make more app</StyledTitleApp>
+      </StyledMainTemplate>
+      <Menu position={isMenuOpen} closed={getClose} />
+    </>
   );
 };
 export default TopBar;

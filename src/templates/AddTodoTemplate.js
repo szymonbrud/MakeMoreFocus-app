@@ -5,6 +5,12 @@ import { addTodo } from 'actions';
 import propTypes from 'prop-types';
 import left_arrow from 'assets/icons/left_arrow.svg';
 import web_dev from 'assets/images/web_dev.svg';
+import photo1 from 'assets/imagesTodo/photo1.svg';
+import photo2 from 'assets/imagesTodo/photo2.svg';
+import photo3 from 'assets/imagesTodo/photo3.svg';
+import photo4 from 'assets/imagesTodo/photo4.svg';
+import photo5 from 'assets/imagesTodo/photo5.svg';
+import photo6 from 'assets/imagesTodo/photo6.svg';
 import {
   StyledMainTemplate,
   StyledForm,
@@ -20,7 +26,6 @@ import {
   StyledWrapperImages,
   StyledOneImage,
   StyledImageIcon,
-  StyledMoreImage,
   StyledWrapperPositionButtons,
   StyledBack,
   StyledLeaveButton,
@@ -33,6 +38,7 @@ class AddTodoTemplate extends Component {
     daysOfWeek: [false, false, false, false, false, false, false],
     dayWeek: [false, false],
     loading: false,
+    photoNumber: 0,
   };
 
   changeDay = i => {
@@ -63,8 +69,12 @@ class AddTodoTemplate extends Component {
     }
   };
 
+  checkPhoto = i => {
+    this.setState({ photoNumber: i });
+  };
+
   render() {
-    const { daysOfWeek, dayWeek, loading } = this.state;
+    const { daysOfWeek, dayWeek, loading, photoNumber } = this.state;
     // eslint-disable-next-line
     const { addTodos } = this.props;
 
@@ -78,6 +88,8 @@ class AddTodoTemplate extends Component {
       'niedziela',
     ];
 
+    const photos = [photo1, photo2, photo3, photo4, photo5, photo6];
+
     return (
       <StyledMainTemplate>
         <Formik
@@ -90,7 +102,7 @@ class AddTodoTemplate extends Component {
 
             if (hours <= 24 && minutes <= 60 && value.title.length > 3) {
               this.setState({ loading: true });
-              addTodos(value.title, daysOfWeek, hours, minutes, 4);
+              addTodos(value.title, daysOfWeek, hours, minutes, photoNumber);
             }
             setSubmitting(false);
           }}
@@ -130,26 +142,13 @@ class AddTodoTemplate extends Component {
               </StyledMainWrapperDays>
               <StyledNameSection center>Obrazek do zadania</StyledNameSection>
               <StyledWrapperImages>
-                <StyledOneImage>
-                  <StyledImageIcon src={web_dev} />
-                </StyledOneImage>
-                <StyledOneImage>
-                  <StyledImageIcon src={web_dev} />
-                </StyledOneImage>
-                <StyledOneImage>
-                  <StyledImageIcon src={web_dev} />
-                </StyledOneImage>
-                <StyledOneImage>
-                  <StyledImageIcon src={web_dev} />
-                </StyledOneImage>
-                <StyledOneImage>
-                  <StyledImageIcon src={web_dev} />
-                </StyledOneImage>
-                <StyledOneImage>
-                  <StyledImageIcon src={web_dev} />
-                </StyledOneImage>
+                {photos.map((e, i) => (
+                  <StyledOneImage onClick={() => this.checkPhoto(i)} active={photoNumber === i}>
+                    <StyledImageIcon src={e} />
+                  </StyledOneImage>
+                ))}
               </StyledWrapperImages>
-              <StyledMoreImage>więcej</StyledMoreImage>
+              {/* <StyledMoreImage>więcej</StyledMoreImage> */}
               <StyledWrapperPositionButtons>
                 {loading ? (
                   <AnimationLoading />

@@ -85,6 +85,7 @@ class TodoTemplate extends Component {
             let todayDay = dateToday.getDate();
             let todayMonth = dateToday.getMonth();
             const todayYear = dateToday.getFullYear();
+            const todayDayWeek = dateToday.getDay();
 
             todayDay = this.addZeroToDate(todayDay);
             todayMonth = this.addZeroToDate(todayMonth);
@@ -119,6 +120,7 @@ class TodoTemplate extends Component {
                     todayDay,
                     todayMonth,
                     todayYear,
+                    todayDayWeek,
                   }}
                   todoDone={todoDone.map((e, i) => {
                     return e.date === fullYesterdayDate ? todoDone[i] : null;

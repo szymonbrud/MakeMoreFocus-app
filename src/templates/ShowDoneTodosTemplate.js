@@ -10,6 +10,46 @@ const StyledMainWrapper = styled.div`
   padding: 1vh 0 1vh;
   width: 100%;
 `;
+const StyledWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-bottom: 12px;
+`;
+
+const StyledColorWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const StyledOneColor = styled.div`
+  background: ${({ color }) => color};
+  width: 40px;
+  height: 20px;
+  border-radius: 5px;
+`;
+
+const StyledP = styled.p`
+  margin: 0 0 0 6px;
+  font-size: 1.8rem;
+`;
+
+const StyledWrapperP = styled.div`
+  width: 100%;
+  height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const StyledPN = styled.p`
+  font-size: 2.5rem;
+  width: 90%;
+  margin: 0 5%;
+  text-align: center;
+`;
 
 class ShowDoneTodosTemplate extends Component {
   state = {
@@ -20,7 +60,7 @@ class ShowDoneTodosTemplate extends Component {
     tab: [],
   };
 
-  componentDidMount() {
+  componentWillMount() {
     const { todosToday, getTodosTodayApi, getDoneTodosApi } = this.props;
 
     const todayDate = new Date();
@@ -57,12 +97,19 @@ class ShowDoneTodosTemplate extends Component {
         }
       }
     });
+    if (Date.parse(this.getLastDayDate(0)) < Date.parse(lastDate)) {
+      // debugger;
+    }
 
     let date = this.getLastDayDate(0);
     let i = 1;
     const tab = [];
+    console.log(date.fullDate);
+    console.log(lastDate);
 
+    // debugger;
     while (date.fullDate !== lastDate) {
+      // debugger;
       date = this.getLastDayDate(i);
       tab[i - 1] = 'o';
       i += 1;
@@ -74,6 +121,8 @@ class ShowDoneTodosTemplate extends Component {
   };
 
   getLastDayDate = how => {
+    console.log(how);
+    // debugger;
     const NamesOfDays = [
       'sunday',
       'monday',
@@ -86,6 +135,8 @@ class ShowDoneTodosTemplate extends Component {
 
     const { day, month, year } = this.state;
 
+    // debugger;
+
     const month2 = this.deleteZero(month);
     const day2 = this.deleteZero(day);
 
@@ -97,8 +148,11 @@ class ShowDoneTodosTemplate extends Component {
     dayLastDay = this.addZeroToDate(dayLastDay);
     const monthLastDay2 = this.addZeroToDate(monthLastDay);
 
-    const FullDate = {
-      fullDate: `${yearLastDay}-${this.addZeroToDate2(monthLastDay)}-${dayLastDay}T00:00:00.000Z`,
+    const monthwith0 = this.addZeroToDate2(monthLastDay);
+
+    // debugger;
+    const FullDatee = {
+      fullDate: `${yearLastDay}-${monthwith0}-${dayLastDay}T00:00:00.000Z`,
       day: dayLastDay,
       month: monthLastDay2,
       year: yearLastDay,
@@ -106,7 +160,7 @@ class ShowDoneTodosTemplate extends Component {
       dayNumber: newDate.getDay(),
     };
 
-    return FullDate;
+    return FullDatee;
   };
 
   deleteZero = day => {
@@ -148,33 +202,44 @@ class ShowDoneTodosTemplate extends Component {
     return (
       <>
         <TopBar />
-
+        <StyledWrapper>
+          <StyledColorWrapper>
+            <StyledOneColor color="rgba(45,156,219,.7)" />
+            <StyledP>zrobione</StyledP>
+          </StyledColorWrapper>
+          <StyledColorWrapper>
+            <StyledOneColor color="#53585E" />
+            <StyledP>nie zrobione</StyledP>
+          </StyledColorWrapper>
+        </StyledWrapper>
         <StyledMainWrapper>
-          {tab.length !== 0 ? (
-            todosToday.length !== 0 &&
-            tab.map((e, i) => {
-              const date = this.getLastDayDate(i + 1);
-              return (
-                <TodoDoneAn
-                  date={date}
-                  todoToday={todosToday.map(ele => sprawdz(ele, date))}
-                  todayDone={todoDone.map(element =>
-                    element.date === date.fullDate ? element : null,
-                  )}
-                />
-              );
-            })
-          ) : (
-            <>
-              {allTodosNormallTest === true && tab.length === 0 ? (
-                <>
-                  <p>nie masz jeszcze żadnych zadań</p>
-                </>
-              ) : (
-                <AnimationLoading big />
-              )}
-            </>
-          )}
+          {tab.length !== 0
+            ? todosToday.length !== 0 &&
+              tab.map((e, i) => {
+                const date = this.getLastDayDate(i + 1);
+                return (
+                  <TodoDoneAn
+                    date={date}
+                    todoToday={todosToday.map(ele => sprawdz(ele, date))}
+                    todayDone={todoDone.map(element =>
+                      element.date === date.fullDate ? element : null,
+                    )}
+                  />
+                );
+              })
+            : null
+          // <>
+          //   {allTodosNormallTest === true && tab.length === 0 ? (
+          //     <>
+          //       <StyledWrapperP>
+          //         <StyledPN>Nie masz jeszcze ukończonych żadnych zadań</StyledPN>
+          //       </StyledWrapperP>
+          //     </>
+          //   ) : (
+          //     <AnimationLoading big />
+          //   )}
+          // </>
+          }
         </StyledMainWrapper>
       </>
     );
