@@ -26,7 +26,6 @@ import {
 } from 'StyledTemplates/AddTodoTemplate.style';
 import left_arrow from 'assets/icons/left_arrow.svg';
 import icon_trash from 'assets/icons/icon_trash.svg';
-import web_dev from 'assets/images/web_dev.svg';
 import Icon from 'components/Icon/Icon';
 import LogAndRegButton from 'components/atoms/LogAndRegButton/LogAndRegButton';
 import photo1 from 'assets/imagesTodo/photo1.svg';

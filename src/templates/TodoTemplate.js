@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import TodoModel from 'components/models/TodoModel';
 import { connect } from 'react-redux';
 import { getTodosToday, getDoneTodos } from 'actions';
 import propTypes from 'prop-types';
+import TodoModel from 'components/models/TodoModel';
 import ButtonNewTodo from 'components/molecules/ButtonNewTodo/ButtonNewTodo';
 import HaveNotAnyTodoTemplate from 'templates/HaveNotAnyTodoTemplate';
 import AnimationLoading from 'components/molecules/AnimationLoading/AnimationLoading';
 import TopBar from 'components/organisms/TopBar/TopBar';
-import BlockWithSvg from 'components/molecules/BlockWithSvg/BlockWithSvg';
+import TilesLinkWithImage from 'components/molecules/TilesLinkWithImage/TilesLinkWithImage';
+import addZeroToDate from 'functions/addZeroToDate';
+import { NamesOfDays } from 'functions/Names';
 
 const StyledWrapper = styled.section`
   width: 100%;
@@ -36,8 +38,8 @@ class TodoTemplate extends Component {
       year,
     });
 
-    day = this.addZeroToDate(day);
-    month = this.addZeroToDate(month);
+    day = addZeroToDate(day);
+    month = addZeroToDate(month);
 
     if (todos.monday === undefined || getNewData) {
       const fullTodayDate = `${year}-${month}-${day - 1}`;
@@ -53,31 +55,14 @@ class TodoTemplate extends Component {
     getDone(userId, fullTodayDate);
   };
 
-  addZeroToDate = day => {
-    if (day < 10) {
-      return `0${day}`;
-    }
-    return day;
-  };
-
   render() {
     const { todos, todoDone } = this.props;
     const { day, month, year } = this.state;
 
-    const NamesOfDays = [
-      'sunday',
-      'monday',
-      'tuesday',
-      'wednesday',
-      'thursday',
-      'friday',
-      'saturday',
-    ];
-
     return (
       <StyledWrapper>
         <TopBar />
-        {todos.length !== 0 && <BlockWithSvg />}
+        {todos.length !== 0 && <TilesLinkWithImage />}
         {todos.length !== 0 ? (
           NamesOfDays.map((element, index) => {
             const dateToday = new Date(year, month, day + index);
@@ -87,8 +72,8 @@ class TodoTemplate extends Component {
             const todayYear = dateToday.getFullYear();
             const todayDayWeek = dateToday.getDay();
 
-            todayDay = this.addZeroToDate(todayDay);
-            todayMonth = this.addZeroToDate(todayMonth);
+            todayDay = addZeroToDate(todayDay);
+            todayMonth = addZeroToDate(todayMonth);
 
             const yesterdayDate = new Date(todayYear, todayMonth, todayDay);
 
@@ -98,15 +83,13 @@ class TodoTemplate extends Component {
 
             yesterdayMonth += 1;
 
-            yesterdayDay = this.addZeroToDate(yesterdayDay);
-            yesterdayMonth = this.addZeroToDate(yesterdayMonth);
+            yesterdayDay = addZeroToDate(yesterdayDay);
+            yesterdayMonth = addZeroToDate(yesterdayMonth);
 
             const fullYesterdayDate = `${yesterdayYear}-${yesterdayMonth}-${yesterdayDay}T00:00:00.000Z`;
-
             let check = false;
 
             NamesOfDays.forEach(ele => {
-              // eslint-disable-next-line
               for (const prop in todos[ele]) {
                 if (prop !== undefined) check = true;
               }
@@ -145,6 +128,7 @@ TodoTemplate.propTypes = {
   getDone: propTypes.func.isRequired,
   todoDone: propTypes.objectOf(propTypes.object),
   todos: propTypes.objectOf(propTypes.object),
+  getNewData: propTypes.bool.isRequired,
 };
 
 TodoTemplate.defaultProps = {

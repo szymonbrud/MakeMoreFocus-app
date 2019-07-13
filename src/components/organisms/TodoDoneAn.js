@@ -17,17 +17,14 @@ const TodoDoneAn = ({ date, todoToday, todayDone }) => {
           if (przep === false) {
             if (leng - 1 === index) {
               if (element !== null) {
-                console.log('opcja 1');
                 if (element.idTodo === e.id) {
                   tab[i] = element;
                   przep = true;
                 }
               } else {
-                console.log('opcja 2');
                 tab[i] = e;
               }
             } else if (element !== null) {
-              console.log('opcja ostatnia');
               if (element.idTodo === e.id) {
                 tab[i] = element;
                 przep = true;

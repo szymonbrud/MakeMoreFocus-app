@@ -50,23 +50,21 @@ const StyledLink = styled.p`
   }
 `;
 
-const Menu = ({ position, closed }) => {
-  return (
-    <StyledMainWrapperAnimation pose={position ? 'visible' : 'hidden'}>
-      <StyledWrapper>
-        <StyledLink as={NavLink} to="/todo">
-          Start
-        </StyledLink>
-        <StyledLink as={NavLink} to="/doneTodo">
-          zrobione zadania
-        </StyledLink>
-        <StyledLink as={NavLink} to="/pomodoro">
-          pomodoro
-        </StyledLink>
-      </StyledWrapper>
-      <StyledCloseWrapper onClick={() => closed()} />
-    </StyledMainWrapperAnimation>
-  );
-};
+const Menu = ({ position, closed }) => (
+  <StyledMainWrapperAnimation pose={position ? 'visible' : 'hidden'}>
+    <StyledWrapper>
+      <StyledLink as={NavLink} to="/todo">
+        Start
+      </StyledLink>
+      <StyledLink as={NavLink} to="/doneTodo">
+        zrobione zadania
+      </StyledLink>
+      <StyledLink as={NavLink} to="/pomodoro">
+        pomodoro
+      </StyledLink>
+    </StyledWrapper>
+    <StyledCloseWrapper onClick={() => closed()} />
+  </StyledMainWrapperAnimation>
+);
 
 export default Menu;

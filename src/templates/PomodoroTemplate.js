@@ -227,7 +227,6 @@ class PomodoroTemplate extends Component {
     s = s < 10 ? `0${s}` : s;
 
     if (m <= 0 && s <= 0) {
-      console.log('już nie!');
       this.setState({
         s,
         m,

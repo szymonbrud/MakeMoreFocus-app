@@ -104,8 +104,6 @@ class ShowDoneTodosTemplate extends Component {
     let date = this.getLastDayDate(0);
     let i = 1;
     const tab = [];
-    console.log(date.fullDate);
-    console.log(lastDate);
 
     // debugger;
     while (date.fullDate !== lastDate) {
@@ -121,8 +119,6 @@ class ShowDoneTodosTemplate extends Component {
   };
 
   getLastDayDate = how => {
-    console.log(how);
-    // debugger;
     const NamesOfDays = [
       'sunday',
       'monday',

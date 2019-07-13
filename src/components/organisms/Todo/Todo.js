@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import styled, { css, keyframes } from 'styled-components';
+import styled, { css } from 'styled-components';
 import Icon from 'components/Icon/Icon';
-import web_dev from 'assets/images/web_dev.svg';
 import ButtonInTodo from 'components/molecules/ButtonInTodo/ButtonInTodo';
 import icon_clock from 'assets/icons/icon_clock.svg';
 import icon_check from 'assets/icons/icon_check.svg';
@@ -9,14 +8,15 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { addTodoDone } from 'actions';
 import propTypes from 'prop-types';
-import { StyledInput } from 'StyledTemplates/AddTodoTemplate.style';
-import { Field, Formik, Form } from 'formik';
+import { Formik } from 'formik';
 import photo1 from 'assets/imagesTodo/photo1.svg';
 import photo2 from 'assets/imagesTodo/photo2.svg';
 import photo3 from 'assets/imagesTodo/photo3.svg';
 import photo4 from 'assets/imagesTodo/photo4.svg';
 import photo5 from 'assets/imagesTodo/photo5.svg';
 import photo6 from 'assets/imagesTodo/photo6.svg';
+import TodoDone from 'components/organisms/TodoDone/TodoDone';
+import TodoForm from 'components/molecules/TodoForm/TodoForm';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -130,148 +130,15 @@ const StyledButton = styled.button`
     `}
 `;
 
-const AnimationIn = keyframes`
-  from{
-    transform: translateX(-100%);
-  }
-
-  to{
-    transform: translateX(0%);
-  }
-`;
-
-const StyledTitileDone = styled.div`
-  width: 100%;
-  height: 30px;
-  margin: 10px 0;
-  background: #53585e;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  animation: ${AnimationIn} 0.5s forwards;
-
-  ${({ color }) =>
-    color &&
-    css`
-      background: ${({ theme }) => theme.blue};
-    `}
-`;
-
-const StyledTitle = styled.h1`
-  color: white;
-  font-size: 1.8rem;
-  position: relative;
-  margin: 0 0 0 3%;
-
-  ::before {
-    content: '';
-    width: 120%;
-    height: 2px;
-    background: white;
-    position: absolute;
-    top: 50%;
-    left: -10%;
-  }
-`;
-
-const StyledContentInformation = styled.div`
-  width: 100%;
-  background: ${({ theme }) => theme.ligth_blue};
-  height: ${({ status }) => (status ? '200px' : '230px')};
-  margin: 10px 0;
-  overflow: hidden;
-  border-radius: 10px;
-  position: relative;
-`;
-
-const StyledH1Information = styled.h1`
-  color: ${({ theme }) => theme.blue};
-  width: 50%;
-  margin: 20px 10px 0;
-`;
-
-const StyledWrapperForSvg = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 50%;
-  height: 22vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const StyledIconInformation = styled(Icon)`
-  transform: scale(0.1);
-`;
-
-const StyledFormInformation = styled.div`
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-
-  ${({ status }) =>
-    status === false &&
-    css`
-      height: auto;
-    `}
-`;
-
-const StyledInformationP = styled.p`
-  color: ${({ theme }) => theme.blue};
-  margin: 0 0 10px 0;
-`;
-
-const StyledInformationWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const StyledInformationInput = styled(Field)`
-  background: white;
-  border: 1px solid ${({ theme }) => theme.blue};
-  width: 47%;
-  height: 32px;
-  border-radius: 5px;
-  text-align: center;
-`;
-
-const StyledInformationInputText = styled(Field)`
-  border: none;
-  width: 100%;
-  height: 100px;
-  margin-top: 10px;
-  text-align: unset;
-  background: white;
-  border-radius: 5px;
-  align-self: flex-end;
-  justify-self: flex-end;
-`;
-
-const StyledInformationButton = styled.button`
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
-  background: ${({ theme }) => theme.blue};
-  color: white;
-  border: none;
-  border-radius: 10px;
-  height: 30px;
-  width: 30%;
-`;
-
 const StyledLink = styled(Link)`
   text-decoration: none;
 `;
 
 class Todo extends Component {
   state = {
+    checkOptionActive: false,
     LoadState: false,
     animation: false,
-    continueState: false,
     addInformations: false,
     cliced: false,
   };
@@ -280,21 +147,16 @@ class Todo extends Component {
     this.setState({ cliced: whatCLicked, animation: true });
   };
 
-  continue = (state, b) => {
-    const { cliced } = this.state;
-    if (state === false && b === false) {
-      this.setState({ continueState: true });
+  checkOption = () => {
+    this.setState({ animation: false, addInformations: true });
+  };
 
+  continue = state => {
+    if (!state) {
       this.addToDoneTodoApi();
-    }
-
-    if (state === false && b === true && cliced === false) {
-      this.setState({ addInformations: true });
-    }
-
-    if (state === false && b === true && cliced === true) {
-      this.setState({ addInformations: true });
-      this.setState({ addInformations: true });
+      this.setState({ checkOptionActive: true });
+    } else {
+      this.setState({ animation: true });
     }
   };
 
@@ -303,15 +165,9 @@ class Todo extends Component {
     minutes = this.props.data.minutes,
     note = '',
   ) => {
-    // eslint-disable-next-line
-
     const { data, date, addTodoDoneApi } = this.props;
     const { cliced } = this.state;
-
-    this.setState({ LoadState: true });
-
     let liczba;
-
     if (date.todayMonth[0] === '0') {
       // eslint-disable-next-line
       liczba = parseInt(date.todayMonth[1]);
@@ -341,61 +197,26 @@ class Todo extends Component {
 
   render() {
     const { data } = this.props;
-    const { LoadState, animation, continueState, addInformations, cliced } = this.state;
+    const { LoadState, animation, checkOptionActive, addInformations, cliced } = this.state;
     const photos = [photo1, photo2, photo3, photo4, photo5, photo6];
 
     return (
       <>
-        {continueState ? (
-          <StyledTitileDone color={cliced}>
-            <StyledTitle>{data.title}</StyledTitle>
-          </StyledTitileDone>
+        {checkOptionActive ? (
+          <TodoDone status={!cliced} title={data.title} />
         ) : (
           <>
             {addInformations ? (
               <Formik
-                initialValues={{ h: '', m: '', content: '' }}
-                onSubmit={(value, { setSubmitting }) => {
-                  if (value.h !== '' && value.m !== '') {
-                    this.addToDoneTodoApi(value.h, value.m, value.content);
-                    this.setState({ continueState: true });
+                initialValues={{ h: '', m: '' }}
+                onSubmit={({ h, m }) => {
+                  if (h !== '' && m !== '') {
+                    this.addToDoneTodoApi(h, m, '');
+                    this.setState({ checkOptionActive: true });
                   }
                 }}
               >
-                {({ isSubmitting }) => (
-                  <Form>
-                    <StyledContentInformation status={cliced}>
-                      <StyledH1Information>{data.title}</StyledH1Information>
-                      <StyledWrapperForSvg>
-                        <StyledIconInformation src={photos[data.images]} />
-                      </StyledWrapperForSvg>
-                      <StyledFormInformation status={cliced}>
-                        {cliced ? (
-                          <>
-                            <StyledInformationP>
-                              Ile czasu udało ci się na to poświęcić
-                            </StyledInformationP>
-                            <StyledInformationWrapper>
-                              <StyledInformationInput
-                                as={Field}
-                                type="number"
-                                name="h"
-                                placeholder="godziny"
-                              />
-                              <StyledInformationInput
-                                as={Field}
-                                type="number"
-                                name="m"
-                                placeholder="minuty"
-                              />
-                            </StyledInformationWrapper>
-                          </>
-                        ) : null}
-                      </StyledFormInformation>
-                      <StyledInformationButton>zapisz</StyledInformationButton>
-                    </StyledContentInformation>
-                  </Form>
-                )}
+                <TodoForm data={data} />
               </Formik>
             ) : (
               <>
@@ -407,7 +228,6 @@ class Todo extends Component {
                       {data.hours}h {data.minutes}m
                     </StyledTime>
                     <WrapperIcons>
-                      {/* eslint-disable-next-line */}
                       <StyledLink to="/pomodoro">
                         <ButtonInTodo
                           icons={icon_clock}
@@ -416,27 +236,21 @@ class Todo extends Component {
                           animation={animation}
                         />
                       </StyledLink>
-                      {/* eslint-disable-next-line */}
                       <div onClick={() => this.addTodoDone(true)}>
                         <ButtonInTodo icons={icon_check} title="zrobione" animation={animation} />
                       </div>
-                      {/* eslint-disable-next-line */}
-                      <div onClick={() => this.continue(false, false)}>
+                      <div onClick={() => this.continue(false)}>
                         <ButtonInTodo title="niestety" animation={animation} />
                       </div>
                     </WrapperIcons>
                     {animation && (
                       <StyledQuestion>
-                        <StyledQuersionP>
-                          {cliced
-                            ? 'Brawo! Chcesz dodać szczegóły'
-                            : 'Trudno, chcesz dodać notakę?'}
-                        </StyledQuersionP>
+                        <StyledQuersionP>Brawo! Chcesz dodać szczegóły</StyledQuersionP>
                         <StyledWrapperButtons>
                           <StyledButton onClick={() => this.continue(false, false)}>
                             nie
                           </StyledButton>
-                          <StyledButton blue onClick={() => this.continue(false, true)}>
+                          <StyledButton blue onClick={() => this.checkOption(true)}>
                             tak
                           </StyledButton>
                         </StyledWrapperButtons>

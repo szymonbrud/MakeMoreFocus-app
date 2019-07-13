@@ -51,7 +51,7 @@ const StyledLink = styled.p`
   } */
 `;
 
-const BlockWithSvg = () => (
+const TilesLinkWithImage = () => (
   <StyledMainWrapper>
     <StyledWrapper to="/doneTodo">
       <StyledIcon src={done} />
@@ -64,4 +64,4 @@ const BlockWithSvg = () => (
   </StyledMainWrapper>
 );
 
-export default BlockWithSvg;
+export default TilesLinkWithImage;

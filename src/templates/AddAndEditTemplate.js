@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
 import { Formik, Field } from 'formik';
 import { connect } from 'react-redux';
 import { addTodo } from 'actions';
@@ -27,7 +28,7 @@ import {
 import LogAndRegButton from 'components/atoms/LogAndRegButton/LogAndRegButton';
 import AnimationLoading from 'components/molecules/AnimationLoading/AnimationLoading';
 
-class AddTodoTemplate extends Component {
+class AddAndEditTemplate extends Component {
   state = {
     daysOfWeek: [false, false, false, false, false, false, false],
     dayWeek: [false, false],
@@ -68,27 +69,15 @@ class AddTodoTemplate extends Component {
   };
 
   render() {
+    const { option } = this.props;
+
     const { daysOfWeek, dayWeek, loading, photoNumber } = this.state;
     // eslint-disable-next-line
     const { addTodos } = this.props;
 
     return (
       <StyledMainTemplate>
-        <Formik
-          initialValues={{ title: '', h: '', m: '' }}
-          onSubmit={(value, { setSubmitting }) => {
-            // eslint-disable-next-line
-            const hours = parseInt(value.h);
-            // eslint-disable-next-line
-            const minutes = parseInt(value.m);
-
-            if (hours <= 24 && minutes <= 60 && value.title.length > 3) {
-              this.setState({ loading: true });
-              addTodos(value.title, daysOfWeek, hours, minutes, photoNumber);
-            }
-            setSubmitting(false);
-          }}
-        >
+        <Formik option>
           {({ isSubmitting }) => (
             <StyledForm>
               <StyledBack to="/todo">
@@ -151,15 +140,4 @@ class AddTodoTemplate extends Component {
   }
 }
 
-const mapActionToProps = {
-  addTodos: addTodo,
-};
-
-AddTodoTemplate.propTypes = {
-  addTodos: propTypes.func.isRequired,
-};
-
-export default connect(
-  null,
-  mapActionToProps,
-)(AddTodoTemplate);
+export default AddAndEditTemplate;

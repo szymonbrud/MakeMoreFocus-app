@@ -4,14 +4,14 @@ import propTypes from 'prop-types';
 import Todo from 'components/organisms/Todo/Todo';
 import TodoDone from 'components/organisms/TodoDone/TodoDone';
 import Date from 'components/atoms/Date/Date';
-import getMonth from 'functions/getMonth';
+import { NameOfDaysPL } from 'functions/Names';
 
 const StyledMainWrapper = styled.article`
   width: 100%;
   height: 100%;
 `;
 
-const WrapperTodo = styled.div`
+const StyledWrapperTodo = styled.div`
   width: 96%;
   margin-left: 2%;
 `;
@@ -60,7 +60,7 @@ class TodoModel extends Component {
     };
 
     if (todoDone.length !== 0 || todo.length !== 0) {
-      // eslint-disable-next-line
+      // eslint-disable-next-line guard-for-in
       for (const prop in todo) {
         CheckStateOfTodo = true;
         stateOfTodo = [];
@@ -68,13 +68,10 @@ class TodoModel extends Component {
       }
     }
 
-    const NameOfDayWeek = ['nie', 'pon', 'wt', 'śr', 'czw', 'pt', 'sob'];
-
     return (
       <StyledMainWrapper>
-        {console.log(date)}
-        <Date>{`${NameOfDayWeek[date.todayDayWeek]} ${date.todayDay}`}</Date>
-        <WrapperTodo>
+        <Date>{`${NameOfDaysPL[date.todayDayWeek]} ${date.todayDay}`}</Date>
+        <StyledWrapperTodo>
           {allTodos.length !== 0 ? (
             allTodos.map(e => {
               if (e.date === undefined) {
@@ -83,9 +80,9 @@ class TodoModel extends Component {
               return <TodoDone data={e} date={date} />;
             })
           ) : (
-            <StyledP>Nie masz jeszcze zadanek na ten dzień</StyledP>
+            <StyledP>Nie masz jeszcze zadań na ten dzień, może czas je dodać?</StyledP>
           )}
-        </WrapperTodo>
+        </StyledWrapperTodo>
       </StyledMainWrapper>
     );
   }
