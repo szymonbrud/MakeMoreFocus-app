@@ -76,7 +76,7 @@ const TopBar = () => {
         <StyledBurgerWrapper onClick={toggleMobileMenu}>
           <StyledBurger />
         </StyledBurgerWrapper>
-        <StyledTitleApp>make more app</StyledTitleApp>
+        <StyledTitleApp>make more focus</StyledTitleApp>
       </StyledMainTemplate>
       <Menu position={isMenuOpen} closed={getClose} />
     </>
