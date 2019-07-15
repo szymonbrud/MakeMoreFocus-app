@@ -161,7 +161,9 @@ class Todo extends Component {
   };
 
   addToDoneTodoApi = (
+    // eslint-disable-next-line
     hours = this.props.data.hours,
+    // eslint-disable-next-line
     minutes = this.props.data.minutes,
     note = '',
   ) => {
@@ -169,15 +171,13 @@ class Todo extends Component {
     const { cliced } = this.state;
     let liczba;
     if (date.todayMonth[0] === '0') {
-      // eslint-disable-next-line
-      liczba = parseInt(date.todayMonth[1]);
+      liczba = parseInt(date.todayMonth[1], 10);
       liczba += 1;
       if (liczba < 10) {
         liczba = `0${liczba}`;
       }
     } else {
-      // eslint-disable-next-line
-      liczba = parseInt(date.todayMonth);
+      liczba = parseInt(date.todayMonth, 10);
       liczba += 1;
       liczba = `${liczba}`;
     }
@@ -236,9 +236,11 @@ class Todo extends Component {
                           animation={animation}
                         />
                       </StyledLink>
+                      {/* eslint-disable-next-line */}
                       <div onClick={() => this.addTodoDone(true)}>
                         <ButtonInTodo icons={icon_check} title="zrobione" animation={animation} />
                       </div>
+                      {/* eslint-disable-next-line */}
                       <div onClick={() => this.continue(false)}>
                         <ButtonInTodo title="niestety" animation={animation} />
                       </div>
@@ -272,6 +274,11 @@ const mapActionToProps = {
 
 Todo.propTypes = {
   addTodoDoneApi: propTypes.func.isRequired,
+  date: propTypes.objectOf(propTypes.number, propTypes.string),
+};
+
+Todo.defaultProps = {
+  date: {},
 };
 
 export default connect(
