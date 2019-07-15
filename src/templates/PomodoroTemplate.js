@@ -1,9 +1,9 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
 import Icon from 'components/Icon/Icon';
 import TopBar from 'components/organisms/TopBar/TopBar';
 import clock_light_white from 'assets/icons/clock_light_white.svg';
-import clock_blue from 'assets/icons/clock_blue.svg';
 import coffy_break from 'assets/images/coffy_break.svg';
 import media from 'assets/styles/media';
 

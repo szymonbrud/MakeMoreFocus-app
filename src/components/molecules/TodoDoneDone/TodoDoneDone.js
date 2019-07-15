@@ -2,9 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import web_dev from 'assets/images/web_dev.svg';
 import Icon from 'components/Icon/Icon';
-import { Link } from 'react-router-dom';
-import arrow_white_icon from 'assets/icons/arrow_white_icon.svg';
 import icon_clock from 'assets/icons/icon_clock.svg';
+import propTypes from 'prop-types';
 
 const PostionPhoto = styled.div`
   width: 94%;
@@ -66,5 +65,13 @@ const TodoDoneDone = ({ data }) => (
     </StyledMainWrapper>
   </PostionPhoto>
 );
+
+TodoDoneDone.propTypes = {
+  data: propTypes.objectOf(propTypes.number, propTypes.string),
+};
+
+TodoDoneDone.defaultProps = {
+  data: {},
+};
 
 export default TodoDoneDone;

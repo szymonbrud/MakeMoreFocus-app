@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Icon from 'components/Icon/Icon';
-import { Link } from 'react-router-dom';
-import left_arrow from 'assets/icons/left_arrow.svg';
+import propTypes from 'prop-types';
 
 const StyledMainWrapper = styled.div`
   width: 94%;
@@ -22,21 +20,18 @@ const StyledP = styled.p`
   font-size: 18px;
 `;
 
-const StyledArrowIcon = styled(Icon)`
-  width: 15px;
-  height: 15px;
-  transform: rotate(180deg);
-`;
-
-const StyledLink = styled(Link)`
-  position: absolute;
-  right: 7px;
-`;
-
 const TodoDidNotDone = ({ data }) => (
   <StyledMainWrapper>
     <StyledP>{data.title}</StyledP>
   </StyledMainWrapper>
 );
+
+TodoDidNotDone.propTypes = {
+  data: propTypes.objectOf(propTypes.number, propTypes.string),
+};
+
+TodoDidNotDone.defaultProps = {
+  data: {},
+};
 
 export default TodoDidNotDone;

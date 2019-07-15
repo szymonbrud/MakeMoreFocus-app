@@ -26,5 +26,19 @@ export const NameOfDaysLongPL = [
 ];
 
 export const NameOfDaysPL = ['nie', 'pon', 'wt', 'śr', 'czw', 'pt', 'sob'];
+export const NameOfMonthShortPL = [
+  'sty',
+  'lut',
+  'mar',
+  'kwi',
+  'maj',
+  'cze',
+  'lip',
+  'sie',
+  'wrz',
+  'paz',
+  'lis',
+  'gru',
+];
 
 export const Photos = [photo1, photo2, photo3, photo4, photo5, photo6];

@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import posed from 'react-pose';
-import { Link } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
+import propTypes from 'prop-types';
 
 const StyledMainWrapper = styled.div`
   position: fixed;
@@ -30,16 +30,17 @@ const StyledCloseWrapper = styled.div`
   height: 100%;
 `;
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.ul`
   background: #fff;
   height: 100%;
   width: 70%;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
+  margin: 0;
 `;
 
-const StyledLink = styled.p`
+const StyledLink = styled.li`
   margin: 15px;
   color: black;
   text-decoration: none;
@@ -66,5 +67,10 @@ const Menu = ({ position, closed }) => (
     <StyledCloseWrapper onClick={() => closed()} />
   </StyledMainWrapperAnimation>
 );
+
+Menu.propTypes = {
+  position: propTypes.bool.isRequired,
+  closed: propTypes.func.isRequired,
+};
 
 export default Menu;

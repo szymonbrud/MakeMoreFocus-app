@@ -5,6 +5,7 @@ import { getTodosToday, getDoneTodos } from 'actions';
 import TodoDoneAn from 'components/organisms/TodoDoneAn';
 import AnimationLoading from 'components/molecules/AnimationLoading/AnimationLoading';
 import TopBar from 'components/organisms/TopBar/TopBar';
+import propTypes from 'prop-types';
 
 const StyledMainWrapper = styled.div`
   padding: 1vh 0 1vh;
@@ -34,21 +35,6 @@ const StyledOneColor = styled.div`
 const StyledP = styled.p`
   margin: 0 0 0 6px;
   font-size: 1.8rem;
-`;
-
-const StyledWrapperP = styled.div`
-  width: 100%;
-  height: 70vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const StyledPN = styled.p`
-  font-size: 2.5rem;
-  width: 90%;
-  margin: 0 5%;
-  text-align: center;
 `;
 
 class ShowDoneTodosTemplate extends Component {
@@ -97,17 +83,12 @@ class ShowDoneTodosTemplate extends Component {
         }
       }
     });
-    if (Date.parse(this.getLastDayDate(0)) < Date.parse(lastDate)) {
-      // debugger;
-    }
 
     let date = this.getLastDayDate(0);
     let i = 1;
     const tab = [];
 
-    // debugger;
     while (date.fullDate !== lastDate) {
-      // debugger;
       date = this.getLastDayDate(i);
       tab[i - 1] = 'o';
       i += 1;
@@ -131,8 +112,6 @@ class ShowDoneTodosTemplate extends Component {
 
     const { day, month, year } = this.state;
 
-    // debugger;
-
     const month2 = this.deleteZero(month);
     const day2 = this.deleteZero(day);
 
@@ -146,7 +125,6 @@ class ShowDoneTodosTemplate extends Component {
 
     const monthwith0 = this.addZeroToDate2(monthLastDay);
 
-    // debugger;
     const FullDatee = {
       fullDate: `${yearLastDay}-${monthwith0}-${dayLastDay}T00:00:00.000Z`,
       day: dayLastDay,
@@ -161,9 +139,9 @@ class ShowDoneTodosTemplate extends Component {
 
   deleteZero = day => {
     if (day[0] === '0') {
-      return parseInt(day[1]);
+      return parseInt(day[1], 10);
     }
-    return parseInt(day);
+    return parseInt(day, 10);
   };
 
   addZeroToDate = day => {
@@ -181,7 +159,7 @@ class ShowDoneTodosTemplate extends Component {
   };
 
   render() {
-    const { todosToday, todoDone, allTodosNormallTest } = this.props;
+    const { todosToday, todoDone } = this.props;
     const { tab } = this.state;
 
     if (todosToday.length !== 0) {
@@ -209,38 +187,40 @@ class ShowDoneTodosTemplate extends Component {
           </StyledColorWrapper>
         </StyledWrapper>
         <StyledMainWrapper>
-          {tab.length !== 0
-            ? todosToday.length !== 0 &&
-              tab.map((e, i) => {
-                const date = this.getLastDayDate(i + 1);
-                return (
-                  <TodoDoneAn
-                    date={date}
-                    todoToday={todosToday.map(ele => sprawdz(ele, date))}
-                    todayDone={todoDone.map(element =>
-                      element.date === date.fullDate ? element : null,
-                    )}
-                  />
-                );
-              })
-            : null
-          // <>
-          //   {allTodosNormallTest === true && tab.length === 0 ? (
-          //     <>
-          //       <StyledWrapperP>
-          //         <StyledPN>Nie masz jeszcze ukończonych żadnych zadań</StyledPN>
-          //       </StyledWrapperP>
-          //     </>
-          //   ) : (
-          //     <AnimationLoading big />
-          //   )}
-          // </>
-          }
+          {tab.length !== 0 ? (
+            todosToday.length !== 0 &&
+            tab.map((e, i) => {
+              const date = this.getLastDayDate(i + 1);
+              return (
+                <TodoDoneAn
+                  date={date}
+                  todoToday={todosToday.map(ele => sprawdz(ele, date))}
+                  todayDone={todoDone.map(element =>
+                    element.date === date.fullDate ? element : null,
+                  )}
+                />
+              );
+            })
+          ) : (
+            <AnimationLoading big />
+          )}
         </StyledMainWrapper>
       </>
     );
   }
 }
+
+ShowDoneTodosTemplate.propTypes = {
+  getTodosTodayApi: propTypes.func.isRequired,
+  getDoneTodosApi: propTypes.func.isRequired,
+  todoDone: propTypes.arrayOf(propTypes.object),
+  todosToday: propTypes.arrayOf(propTypes.object),
+};
+
+ShowDoneTodosTemplate.defaultProps = {
+  todoDone: [],
+  todosToday: [],
+};
 
 const mapStateToProps = state => ({
   todoDone: state.todoDone,

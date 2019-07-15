@@ -9,6 +9,7 @@ import AnimationLoading from 'components/molecules/AnimationLoading/AnimationLoa
 import InputField from 'components/atoms/InputField/InputField';
 import LogAndRegButton from 'components/atoms/LogAndRegButton/LogAndRegButton';
 import Forwarding from 'components/molecules/Forwarding/Forwarding';
+import propTypes from 'prop-types';
 
 const StyledMainWrapper = styled.div`
   width: 100%;
@@ -139,8 +140,7 @@ class RegisterTemplate extends Component {
   };
 
   render() {
-    // eslint-disable-next-line
-    const { checkUserApi, checkStatusUser, registerUserApi, checkUserFunc, userData } = this.props;
+    const { checkUserApi, checkStatusUser, checkUserFunc, userData } = this.props;
     const { checked, failLogin } = this.state;
 
     if (userData[0]) {
@@ -181,9 +181,9 @@ class RegisterTemplate extends Component {
                 <InputField as={Field} type="text" placeholder="name" name="name" />
                 {/* eslint-disable-next-line */}
                 {checkStatusUser[1] === undefined ? null : checkStatusUser[1] === false ? (
-                  <PStyledFail>taki email już istnieje</PStyledFail>
+                  <PStyledFail>taka nazwa użytkowanika już istnieje</PStyledFail>
                 ) : null}
-                <InputField as={Field} type="text" placeholder="email" name="email" />
+                <InputField as={Field} type="text" placeholder="username" name="email" />
                 <InputField as={Field} type="password" placeholder="password" name="password" />
                 <InputField
                   as={Field}
@@ -231,6 +231,18 @@ class RegisterTemplate extends Component {
     );
   }
 }
+
+RegisterTemplate.propTypes = {
+  checkUserApi: propTypes.func.isRequired,
+  checkUserFunc: propTypes.func.isRequired,
+  checkStatusUser: propTypes.arrayOf(propTypes.bool.isRequired),
+  userData: propTypes.objectOf(propTypes.string.isRequired),
+};
+
+RegisterTemplate.defaultProps = {
+  checkStatusUser: [],
+  userData: [],
+};
 
 const mapStateToProps = state => ({
   checkStatusUser: state.checkStatusUser,

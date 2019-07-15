@@ -8,8 +8,6 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { finallyActionAPI, getNewData } from 'actions';
 import media from 'assets/styles/media';
-import Icon from 'components/Icon/Icon';
-import forPhone from 'assets/images/forPhone.svg';
 
 const StyledMainWrapper = styled.div`
   min-height: 100vh;
@@ -52,15 +50,6 @@ const StyledP = styled.p`
   width: 80%;
 `;
 
-const StyledIcon = styled(Icon)`
-  transform: scale(0.5);
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  z-index: -1;
-`;
-
-// eslint-disable-next-line
 const MainTemplate = ({ children, statusOfApi, finallyActionApi, getNewDataApi }) => {
   if (statusOfApi) {
     finallyActionApi(false);

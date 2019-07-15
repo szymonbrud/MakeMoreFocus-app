@@ -5,6 +5,8 @@ import { addTodo } from 'actions';
 import propTypes from 'prop-types';
 import left_arrow from 'assets/icons/left_arrow.svg';
 import { NameOfDaysLongPL, Photos } from 'functions/Names';
+import LogAndRegButton from 'components/atoms/LogAndRegButton/LogAndRegButton';
+import AnimationLoading from 'components/molecules/AnimationLoading/AnimationLoading';
 import {
   StyledMainTemplate,
   StyledForm,
@@ -23,9 +25,7 @@ import {
   StyledWrapperPositionButtons,
   StyledBack,
   StyledLeaveButton,
-} from 'StyledTemplates/AddTodoTemplate.style';
-import LogAndRegButton from 'components/atoms/LogAndRegButton/LogAndRegButton';
-import AnimationLoading from 'components/molecules/AnimationLoading/AnimationLoading';
+} from 'StyledTemplates/AddAndEditTemplate.style';
 
 class AddTodoTemplate extends Component {
   state = {
@@ -69,7 +69,6 @@ class AddTodoTemplate extends Component {
 
   render() {
     const { daysOfWeek, dayWeek, loading, photoNumber } = this.state;
-    // eslint-disable-next-line
     const { addTodos } = this.props;
 
     return (
@@ -77,10 +76,8 @@ class AddTodoTemplate extends Component {
         <Formik
           initialValues={{ title: '', h: '', m: '' }}
           onSubmit={(value, { setSubmitting }) => {
-            // eslint-disable-next-line
-            const hours = parseInt(value.h);
-            // eslint-disable-next-line
-            const minutes = parseInt(value.m);
+            const hours = parseInt(value.h, 10);
+            const minutes = parseInt(value.m, 10);
 
             if (hours <= 24 && minutes <= 60 && value.title.length > 3) {
               this.setState({ loading: true });
@@ -130,7 +127,6 @@ class AddTodoTemplate extends Component {
                   </StyledOneImage>
                 ))}
               </StyledWrapperImages>
-              {/* <StyledMoreImage>więcej</StyledMoreImage> */}
               <StyledWrapperPositionButtons>
                 {loading ? (
                   <AnimationLoading />

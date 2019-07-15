@@ -1,7 +1,6 @@
 import styled, { css } from 'styled-components';
 import { Form, Field } from 'formik';
 import Icon from 'components/Icon/Icon';
-import BGLogin2 from 'assets/images/BGLogin2.png';
 import { Link } from 'react-router-dom';
 
 export const StyledMainTemplate = styled.div`

@@ -1,1 +1,0 @@
-arrowIcon = flatIcon

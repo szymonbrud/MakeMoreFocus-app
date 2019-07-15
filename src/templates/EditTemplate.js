@@ -6,6 +6,11 @@ import { connect } from 'react-redux';
 import { deleteTodo, changeTodo } from 'actions';
 import propTypes from 'prop-types';
 import AnimationLoading from 'components/molecules/AnimationLoading/AnimationLoading';
+import left_arrow from 'assets/icons/left_arrow.svg';
+import icon_trash from 'assets/icons/icon_trash.svg';
+import Icon from 'components/Icon/Icon';
+import LogAndRegButton from 'components/atoms/LogAndRegButton/LogAndRegButton';
+import { NameOfDaysLongPL, Photos } from 'functions/Names';
 import {
   StyledForm,
   StyledBack,
@@ -23,17 +28,7 @@ import {
   StyledOneImage,
   StyledImageIcon,
   StyledWrapperImages,
-} from 'StyledTemplates/AddTodoTemplate.style';
-import left_arrow from 'assets/icons/left_arrow.svg';
-import icon_trash from 'assets/icons/icon_trash.svg';
-import Icon from 'components/Icon/Icon';
-import LogAndRegButton from 'components/atoms/LogAndRegButton/LogAndRegButton';
-import photo1 from 'assets/imagesTodo/photo1.svg';
-import photo2 from 'assets/imagesTodo/photo2.svg';
-import photo3 from 'assets/imagesTodo/photo3.svg';
-import photo4 from 'assets/imagesTodo/photo4.svg';
-import photo5 from 'assets/imagesTodo/photo5.svg';
-import photo6 from 'assets/imagesTodo/photo6.svg';
+} from 'StyledTemplates/AddAndEditTemplate.style';
 
 const StyledBackRight = styled(StyledBack)`
   position: absolute;
@@ -85,8 +80,8 @@ class EditTemplate extends Component {
   };
 
   componentDidMount() {
-    // eslint-disable-next-line
-    const { id } = this.props.match.params;
+    const { match } = this.props;
+    const { id } = match.params;
     const userId = sessionStorage.getItem('key');
 
     axios
@@ -143,22 +138,7 @@ class EditTemplate extends Component {
 
   render() {
     const { data, loading, dayWeek, daysOfWeek, loadingSend, block, photoNumber } = this.state;
-    const photos = [photo1, photo2, photo3, photo4, photo5, photo6];
-    // eslint-disable-next-line
     const { changeTodoApi } = this.props;
-
-    // eslint-disable-next-line
-    const { id } = this.props.match.params;
-
-    const weekDays = [
-      'poniedziałek',
-      'wtorek',
-      'środa',
-      'czwartek',
-      'piątek',
-      'sobota',
-      'niedziela',
-    ];
 
     const NamesOfDays = [
       'monday',
@@ -206,14 +186,13 @@ class EditTemplate extends Component {
                   <StyledArrowIconRight src={icon_trash} />
                 </StyledBackRight>
                 <StyledWarpperImage>
-                  <StyledIcon src={photos[data.images]} />
+                  <StyledIcon src={Photos[data.images]} />
                 </StyledWarpperImage>
                 <StyledInputEdit as={Field} type="text" placeholder="nazwa zadania" name="title" />
                 <StyledWrppaerForTime>
                   <StyledInputEdit as={Field} type="number" placeholder="godziny" name="h" time />
                   <StyledInputEdit as={Field} type="number" placeholder="minuty" name="m" time />
                 </StyledWrppaerForTime>
-                {/* ----------------------------- */}
                 <StyledMainWrapperDays>
                   <StyledWrapperWeekDays>
                     <StyledCheckboxDay onClick={() => this.changeDayWeek(0)} active={dayWeek[0]}>
@@ -224,7 +203,7 @@ class EditTemplate extends Component {
                     </StyledCheckboxDay>
                   </StyledWrapperWeekDays>
                   <StyledWrapperAllDays>
-                    {weekDays.map((e, i) => (
+                    {NameOfDaysLongPL.map((e, i) => (
                       <StyledAllChecboxDays
                         onClick={() => this.changeDay(i)}
                         active={daysOfWeek[i] === true}
@@ -235,13 +214,12 @@ class EditTemplate extends Component {
                   </StyledWrapperAllDays>
                 </StyledMainWrapperDays>
                 <StyledWrapperImagesEdit>
-                  {photos.map((e, i) => (
+                  {Photos.map((e, i) => (
                     <StyledOneImage onClick={() => this.checkPhoto(i)} active={photoNumber === i}>
                       <StyledImageIcon src={e} />
                     </StyledOneImage>
                   ))}
                 </StyledWrapperImagesEdit>
-                {/* ======================================= */}
                 <StyledWrapperPositionButtonsEdit>
                   {loadingSend ? (
                     <AnimationLoading />
@@ -265,13 +243,19 @@ class EditTemplate extends Component {
   }
 }
 
+EditTemplate.propTypes = {
+  match: propTypes.shape({
+    params: propTypes.shape({
+      id: propTypes.number.isRequired,
+    }),
+  }).isRequired,
+  changeTodoApi: propTypes.func.isRequired,
+  deleteTodoApi: propTypes.func.isRequired,
+};
+
 const mapActionToProps = {
   deleteTodoApi: deleteTodo,
   changeTodoApi: changeTodo,
-};
-
-EditTemplate.propTypes = {
-  deleteTodoApi: propTypes.func.isRequired,
 };
 
 export default connect(

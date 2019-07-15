@@ -116,7 +116,7 @@ class LoginTemplate extends Component {
     return (
       <StyledMainTemplate>
         <StyledContentWrapper>
-          <StyledH1>make more app</StyledH1>
+          <StyledH1>make more focus</StyledH1>
 
           <Formik
             initialValues={{ email: '', password: '' }}
@@ -131,7 +131,7 @@ class LoginTemplate extends Component {
           >
             {({ isSubmitting }) => (
               <StyledForm>
-                <InputField as={Field} type="text" placeholder="email" name="email" />
+                <InputField as={Field} type="text" placeholder="username" name="email" />
                 <InputField as={Field} type="password" placeholder="password" name="password" />
 
                 {dataUser.length === 0 && authenticate === 200 && (

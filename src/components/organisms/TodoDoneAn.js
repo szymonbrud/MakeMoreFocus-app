@@ -2,6 +2,8 @@ import React from 'react';
 import Date from 'components/atoms/Date/Date';
 import TodoDidNotDone from 'components/molecules/TodoDidNotDone/TodoDidNotDone';
 import TodoDoneDone from 'components/molecules/TodoDoneDone/TodoDoneDone';
+import propTypes from 'prop-types';
+import { NameOfMonthShortPL, NameOfDaysPL } from 'functions/Names';
 
 const TodoDoneAn = ({ date, todoToday, todayDone }) => {
   let przep = false;
@@ -36,27 +38,10 @@ const TodoDoneAn = ({ date, todoToday, todayDone }) => {
     });
   }
 
-  const transformDate = date => {
-    const NameOfDaysPL = ['nidz', 'pon', 'wt', 'śr', 'czw', 'pt', 'sob'];
+  const transformDate = datee => {
+    const month = date.month[0] === '0' ? parseInt(datee.month[1], 10) : parseInt(datee.month, 10);
 
-    const NameOfMonthsPL = [
-      'sty',
-      'lut',
-      'mar',
-      'kwi',
-      'maj',
-      'cze',
-      'lip',
-      'sie',
-      'wrz',
-      'paz',
-      'lis',
-      'gru',
-    ];
-
-    const month = date.month[0] === '0' ? parseInt(date.month[1]) : parseInt(date.month);
-
-    return `${NameOfDaysPL[date.dayNumber]} ${date.day} ${NameOfMonthsPL[month + 1]}`;
+    return `${NameOfDaysPL[datee.dayNumber]} ${datee.day} ${NameOfMonthShortPL[month + 1]}`;
   };
 
   return (
@@ -66,7 +51,6 @@ const TodoDoneAn = ({ date, todoToday, todayDone }) => {
         <>
           {e !== null && (
             <>
-              {/* {console.log(e)} */}
               {e.date === undefined ? (
                 <>
                   <TodoDidNotDone data={e} />
@@ -86,6 +70,18 @@ const TodoDoneAn = ({ date, todoToday, todayDone }) => {
       ))}
     </div>
   );
+};
+
+TodoDoneAn.propTypes = {
+  date: propTypes.objectOf(propTypes.number, propTypes.string),
+  todoToday: propTypes.arrayOf(propTypes.objectOf(propTypes.string, propTypes.number)),
+  todayDone: propTypes.arrayOf(propTypes.object),
+};
+
+TodoDoneAn.defaultProps = {
+  date: {},
+  todoToday: [],
+  todayDone: [],
 };
 
 export default TodoDoneAn;
