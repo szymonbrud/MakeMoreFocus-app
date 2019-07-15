@@ -1,13 +1,36 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
+import propTypes from 'prop-types';
+
+const AnimationIn = keyframes`
+  from{
+    transform: translateX(-100%);
+  }
+
+  to{
+    transform: translateX(0%);
+  }
+`;
 
 const StyledMainWrapper = styled.div`
   width: 100%;
   height: 30px;
+  margin: 10px 0;
   background: ${({ theme }) => theme.blue};
   border-radius: 5px;
   display: flex;
   align-items: center;
+  ${({ status }) =>
+    status !== undefined &&
+    css`
+      animation: ${AnimationIn} 0.5s forwards;
+    `}
+
+  ${({ state }) =>
+    state &&
+    css`
+      background: #53585e;
+    `}
 `;
 
 const StyledTitle = styled.h1`
@@ -27,11 +50,21 @@ const StyledTitle = styled.h1`
   }
 `;
 
-// eslint-disable-next-line
-const TodoDone = ({ data }) => (
-  <StyledMainWrapper>
-    <StyledTitle>{data.title}</StyledTitle>
+const TodoDone = ({ data = { state: null }, status, title }) => (
+  <StyledMainWrapper state={status || data.state === 0} status={status}>
+    <StyledTitle>{data.title === undefined ? title : data.title}</StyledTitle>
   </StyledMainWrapper>
 );
+
+TodoDone.propTypes = {
+  data: propTypes.objectOf(propTypes.string.isRequired, propTypes.number.isRequired).isRequired,
+  status: propTypes.bool,
+  title: propTypes.string,
+};
+
+TodoDone.defaultProps = {
+  status: undefined,
+  title: '',
+};
 
 export default TodoDone;

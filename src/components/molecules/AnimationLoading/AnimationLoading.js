@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, { keyframes, css } from 'styled-components';
+import propTypes from 'prop-types';
 
 const animation = keyframes`
   0%{
@@ -17,11 +18,17 @@ const animation = keyframes`
 
 const StyledMainWrapper = styled.div`
   width: 60%;
-  /* height: 100vh; */
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+
+  ${({ big }) =>
+    big &&
+    css`
+      height: 100vh;
+      width: 100%;
+    `}
 `;
 
 const StyledDiv = styled.div`
@@ -32,7 +39,7 @@ const StyledDiv = styled.div`
 `;
 
 const StyledH1 = styled.h1`
-  font-size: 1.9rem;
+  font-size: ${({ big }) => (big ? '2.5rem' : '1.9rem')};
   margin: 0;
 `;
 
@@ -57,10 +64,10 @@ const Circle = styled.div`
     `}
 `;
 
-const AnimationLoading = () => (
+const AnimationLoading = ({ big }) => (
   <>
-    <StyledMainWrapper>
-      <StyledH1>Loading</StyledH1>
+    <StyledMainWrapper big={big}>
+      <StyledH1 big={big}>Loading</StyledH1>
       <StyledDiv>
         <Circle />
         <Circle secound />
@@ -69,5 +76,13 @@ const AnimationLoading = () => (
     </StyledMainWrapper>
   </>
 );
+
+AnimationLoading.propTypes = {
+  big: propTypes.bool,
+};
+
+AnimationLoading.defaultProps = {
+  big: false,
+};
 
 export default AnimationLoading;

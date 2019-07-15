@@ -1,6 +1,11 @@
 {
+<<<<<<< HEAD
   "short_name": "makemore",
   "name": "Create React App Sample",
+=======
+  "short_name": "makeMoreFocus",
+  "name": "makeMoreFocus",
+>>>>>>> test
   "icons": [
     {
       "src": "favicon.ico",

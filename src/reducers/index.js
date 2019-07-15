@@ -5,6 +5,10 @@ import {
   CHECKUSER,
   FINALLYREGISTER,
   DONETODO,
+  GETNEWDATA,
+  FINALLYACTIONAPI,
+  FINALLYGETTODONORMALL,
+  FINALLYGETTODOTEST,
 } from 'actions';
 
 export const rootReducer = (state = {}) => {
@@ -59,7 +63,43 @@ export const userData = (state = [], { type, payload }) => {
 export const todoDone = (state = [], { type, payload }) => {
   switch (type) {
     case DONETODO:
-      return payload.userData;
+      return [...state, ...payload.userData];
+    default:
+      return state;
+  }
+};
+
+export const getNewData = (state = false, { type, payload }) => {
+  switch (type) {
+    case GETNEWDATA:
+      return payload.authStatus;
+    default:
+      return state;
+  }
+};
+
+export const statusOfApi = (state = false, { type, payload }) => {
+  switch (type) {
+    case FINALLYACTIONAPI:
+      return payload.authStatus;
+    default:
+      return state;
+  }
+};
+
+export const allTodosNormall = (state = [], { type, payload }) => {
+  switch (type) {
+    case FINALLYGETTODONORMALL:
+      return payload.data;
+    default:
+      return state;
+  }
+};
+
+export const allTodosNormallTest = (state = false, { type, payload }) => {
+  switch (type) {
+    case FINALLYGETTODOTEST:
+      return payload.data;
     default:
       return state;
   }

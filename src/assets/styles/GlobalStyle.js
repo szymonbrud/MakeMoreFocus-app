@@ -4,7 +4,7 @@ const GlobalStyle = createGlobalStyle`
 
   @font-face{
     font-family: 'Roboto', sans-serif;
-    src: url('https://fonts.googleapis.com/css?family=Roboto:400,500,600,700&display=swap&subset=latin-ext');
+    src: url('https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap&subset=latin-ext');
   }
 
   *, *::after, *::before{

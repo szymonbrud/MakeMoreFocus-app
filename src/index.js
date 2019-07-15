@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import thunk from 'redux-thunk';
 import { applyMiddleware, compose, createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
+// import { composeWithDevTools } from 'redux-devtools-extension';
 import {
   rootReducer,
   todosToday,
@@ -12,6 +12,10 @@ import {
   checkStatusUser,
   userData,
   todoDone,
+  getNewData,
+  statusOfApi,
+  allTodosNormall,
+  allTodosNormallTest,
 } from 'reducers';
 import * as serviceWorker from './serviceWorker';
 
@@ -19,7 +23,7 @@ import App from './App';
 
 const allStoreEnchancers = compose(
   applyMiddleware(thunk),
-  composeWithDevTools(),
+  // composeWithDevTools(),
 );
 
 const allReducers = combineReducers({
@@ -30,6 +34,10 @@ const allReducers = combineReducers({
   checkStatusUser,
   userData,
   todoDone,
+  getNewData,
+  allTodosNormall,
+  statusOfApi,
+  allTodosNormallTest,
 });
 
 const store = createStore(allReducers, allStoreEnchancers);
