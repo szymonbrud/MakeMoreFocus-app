@@ -49,7 +49,6 @@ const StyledIconClock = styled(Icon)`
 
 const TodoDoneDone = ({ data }) => (
   <PostionPhoto>
-    {/* <StyledIcon src={web_dev} /> */}
     <StyledMainWrapper>
       <StyledP>{data.title}</StyledP>
       <StyledPTime>
