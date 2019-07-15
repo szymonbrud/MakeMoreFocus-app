@@ -9,6 +9,7 @@ import EditTemplate from 'templates/EditTemplate';
 import ShowDoneTodosTemplate from 'templates/ShowDoneTodosTemplate';
 import PresentationTemplate from 'templates/PresentationTemplate';
 import PomodoroTemplate from 'templates/PomodoroTemplate';
+import LicanseTemplate from 'templates/LicanseTemplate';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   return (
@@ -43,6 +44,7 @@ const App = () => (
         <Route exact path="/" component={LoginTemplate} />
         <Route exact path="/login" component={LoginTemplate} />
         <Route exact path="/register" component={RegisterTemplate} />
+        <Route exact path="/licanse" component={LicanseTemplate} />
       </Switch>
     </MainTemplate>
   </BrowserRouter>

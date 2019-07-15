@@ -7,7 +7,6 @@ import BGLogin2 from 'assets/images/BGLogin2.png';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { finallyActionAPI, getNewData } from 'actions';
-import media from 'assets/styles/media';
 
 const StyledMainWrapper = styled.div`
   min-height: 100vh;
@@ -16,6 +15,9 @@ const StyledMainWrapper = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
   padding-bottom: 6vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const StyledInSideWrapper = styled.div`
@@ -23,31 +25,10 @@ const StyledInSideWrapper = styled.div`
   width: 92%;
   position: relative;
   top: 3vh;
-  left: 4%;
+  /* left: 4%; */
   background: white;
   border-radius: 10px;
-`;
-
-const StyledCanNotWrapper = styled.div`
-  display: none;
-  ${media.tablet`
-    height: 100vh;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0%;
-    background: white;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  `}
-`;
-
-const StyledP = styled.p`
-  text-align: center;
-  font-size: 2.5rem;
-  width: 80%;
+  max-width: 450px;
 `;
 
 const MainTemplate = ({ children, statusOfApi, finallyActionApi, getNewDataApi }) => {
@@ -59,12 +40,6 @@ const MainTemplate = ({ children, statusOfApi, finallyActionApi, getNewDataApi }
 
   return (
     <>
-      <StyledCanNotWrapper>
-        <StyledP>
-          Witaj drogi użytkowniku, cieszę się że tu jesteś, ale prosił bym cię abyś odplił
-          aplikacjie na telefonie. Ale nie mart się już niedługo będzie na wszystko.
-        </StyledP>
-      </StyledCanNotWrapper>
       <StyledMainWrapper>
         <StyledInSideWrapper>
           <GlobalStyle />

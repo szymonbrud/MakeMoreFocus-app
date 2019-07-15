@@ -17,7 +17,9 @@ const StyledWrapper = styled(Link)`
   background: ${({ theme }) => theme.ligth_blue};
   border-radius: 10px;
   width: 42vw;
+  max-width: 46%;
   height: 35vw;
+  max-height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;

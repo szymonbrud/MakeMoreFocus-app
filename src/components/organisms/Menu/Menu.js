@@ -8,10 +8,11 @@ const StyledMainWrapper = styled.div`
   position: fixed;
   top: 3vh;
   z-index: 3000;
-  left: 4%;
   width: 92%;
+  max-width: 450px;
   height: 97vh;
   display: flex;
+  left: calc(50vw -50%);
 `;
 
 const StyledMainWrapperAnimation = posed(StyledMainWrapper)({

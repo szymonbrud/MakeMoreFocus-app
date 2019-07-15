@@ -87,7 +87,7 @@ export const StyledMainWrapperDays = styled.div`
   margin-top: 5px;
   display: flex;
   height: 140px;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
 `;
 
 export const StyledWrapperWeekDays = styled.div`
@@ -152,6 +152,7 @@ export const StyledWrapperImages = styled.div`
 export const StyledOneImage = styled.div`
   width: 48%;
   height: 28vw;
+  max-height: 160px;
   background: ${({ theme }) => theme.opacityBlue2};
   border-radius: 10px;
   display: flex;

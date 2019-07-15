@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import web_dev from 'assets/images/web_dev.svg';
 import Icon from 'components/Icon/Icon';
 import icon_clock from 'assets/icons/icon_clock.svg';
 import propTypes from 'prop-types';
@@ -43,11 +42,6 @@ const StyledPTime = styled.p`
   align-items: center;
 `;
 
-const StyledIcon = styled(Icon)`
-  transform: scale(0.1);
-  margin-left: -50vw;
-`;
-
 const StyledIconClock = styled(Icon)`
   display: inline-block;
   transform: scale(0.6);
@@ -55,7 +49,7 @@ const StyledIconClock = styled(Icon)`
 
 const TodoDoneDone = ({ data }) => (
   <PostionPhoto>
-    <StyledIcon src={web_dev} />
+    {/* <StyledIcon src={web_dev} /> */}
     <StyledMainWrapper>
       <StyledP>{data.title}</StyledP>
       <StyledPTime>

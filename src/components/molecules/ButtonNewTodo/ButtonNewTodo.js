@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import media from 'assets/styles/media';
 
 const ButtonNewTodo = styled(Link)`
   position: fixed;
-  bottom: 3vh;
+  bottom: 4vh;
   left: 80%;
   width: 50px;
   height: 50px;
@@ -43,6 +44,10 @@ const ButtonNewTodo = styled(Link)`
     height: 60%;
     border-radius: 50px;
   }
+
+  ${media.tablet`
+    left: calc(50vw + 150px);
+  `}
 `;
 
 export default ButtonNewTodo;

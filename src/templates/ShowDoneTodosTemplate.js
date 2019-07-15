@@ -6,6 +6,7 @@ import TodoDoneAn from 'components/organisms/TodoDoneAn';
 import AnimationLoading from 'components/molecules/AnimationLoading/AnimationLoading';
 import TopBar from 'components/organisms/TopBar/TopBar';
 import propTypes from 'prop-types';
+import { NamesOfDays } from 'functions/Names';
 
 const StyledMainWrapper = styled.div`
   padding: 1vh 0 1vh;
@@ -100,16 +101,6 @@ class ShowDoneTodosTemplate extends Component {
   };
 
   getLastDayDate = how => {
-    const NamesOfDays = [
-      'sunday',
-      'monday',
-      'tuesday',
-      'wednesday',
-      'thursday',
-      'friday',
-      'saturday',
-    ];
-
     const { day, month, year } = this.state;
 
     const month2 = this.deleteZero(month);

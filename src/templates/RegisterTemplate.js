@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { Formik, Form, Field } from 'formik';
 import { connect } from 'react-redux';
 import { checkUser, checkUserName, registerUser } from 'actions';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import BGLogin2 from 'assets/images/BGLogin2.png';
 import AnimationLoading from 'components/molecules/AnimationLoading/AnimationLoading';
 import InputField from 'components/atoms/InputField/InputField';
@@ -201,10 +201,8 @@ class RegisterTemplate extends Component {
                     </StyledCheckbox>
                   </CheckboxContainer>
                   <StyledTextCheckBox>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel interdum
-                    turpis, sed tempor sapien. Donec at justo dictum, commodo eros sit amet, varius
-                    nulla.
-                    <a href="www.google.com">umowa</a>
+                    Oświadczam iż zapoznałem się z warunkami użytkowania oraz je akceptuję.
+                    <Link to="/licanse">warunki użytkowania</Link>
                   </StyledTextCheckBox>
                 </WrapperCheckboxAndText>
                 {failLogin && (
